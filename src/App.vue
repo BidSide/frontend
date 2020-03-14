@@ -33,6 +33,5 @@ export default class App extends Vue {}
 </script>
 
 <style lang="scss">
-@import '@/styles/colors';
-@import '@/styles/global';
+@import '@/styles/main';
 </style>

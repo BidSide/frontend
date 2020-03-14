@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-block d-md-none">
     <v-btn icon @click.prevent="toggleDrawer">
       <v-icon>mdi-menu</v-icon>
     </v-btn>

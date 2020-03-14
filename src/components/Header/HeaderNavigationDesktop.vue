@@ -30,17 +30,19 @@ export default class HeaderNavigationDesktop extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '~vuetify/src/styles/styles';
+
 .navlink {
   position: relative;
 
   + .navlink {
-    margin-left: 25px;
+    margin-left: $spacer * 8;
 
     &::before {
       content: '';
       position: absolute;
-      top: 0px;
-      left: -17px;
+      top: 0;
+      left: -$spacer * 5;
       width: 2px;
       height: 100%;
       background-color: white;
