@@ -1,0 +1,7 @@
+*.*
+
+!src/**/*.js
+!src/**/*.jsx
+!src/**/*.vue
+!src/**/*.ts
+!src/**/*.tsx
