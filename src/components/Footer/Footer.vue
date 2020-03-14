@@ -1,5 +1,5 @@
 <template>
-  <footer class="primary white--text">
+  <v-footer>
     <v-container>
       <div class="d-flex align-center flex-column flex-sm-row">
         <h4>BidSide - {{ currentYear }}</h4>
@@ -11,14 +11,14 @@
           <a
             href="https://github.com/richardszegh"
             target="_blank"
-            class="bidside-link bidside-link-white"
+            class="bidside-link bidside-link-primary"
           >
             Richárd Szegh
           </a>
         </h4>
       </div>
     </v-container>
-  </footer>
+  </v-footer>
 </template>
 
 <script lang="ts">
