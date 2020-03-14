@@ -5,3 +5,5 @@
 !src/**/*.vue
 !src/**/*.ts
 !src/**/*.tsx
+!src/**/*.css
+!src/**/*.scss

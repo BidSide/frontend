@@ -1,0 +1,20 @@
+.bidside-link {
+  text-decoration: none !important;
+  transition: 0.3s;
+
+  &-primary {
+    color: $primary !important;
+
+    &:hover {
+      color: lighten($primary, 15%) !important;
+    }
+  }
+
+  &-white {
+    color: white !important;
+
+    &:hover {
+      color: darken(white, 15%) !important;
+    }
+  }
+}

@@ -13,13 +13,13 @@
       <h1 class="headline font-weight-bold">BidSide</h1>
     </div>
 
-    <v-spacer></v-spacer>
+    <v-spacer />
 
     <h1>MENU</h1>
   </v-app-bar>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
