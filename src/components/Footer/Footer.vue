@@ -1,12 +1,12 @@
 <template>
   <footer class="primary white--text">
     <v-container>
-      <div class="d-flex align-center">
+      <div class="d-flex align-center flex-column flex-sm-row">
         <h4>BidSide - {{ currentYear }}</h4>
 
         <v-spacer />
 
-        <h4>
+        <h4 class="mt-2 mt-sm-0">
           Created by:
           <a
             href="https://github.com/richardszegh"
