@@ -1,10 +1,8 @@
 <template>
   <div>
-    <!-- desktop nav -->
     <HeaderNavigationDesktop :links="links" />
 
-    <!-- mobile nav -->
-    <div class="d-block d-md-none"></div>
+    <HeaderNavigationMobile :links="links" />
   </div>
 </template>
 
@@ -14,14 +12,16 @@ import Component from 'vue-class-component';
 
 // Components
 import HeaderNavigationDesktop from './HeaderNavigationDesktop.vue';
+import HeaderNavigationMobile from './HeaderNavigationMobile.vue';
 
 @Component({
   components: {
-    HeaderNavigationDesktop
+    HeaderNavigationDesktop,
+    HeaderNavigationMobile
   }
 })
 export default class HeaderNavigation extends Vue {
-  links = [
+  private links = [
     {
       label: 'Home',
       url: '/'
