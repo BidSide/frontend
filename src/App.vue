@@ -16,6 +16,11 @@ import Component from 'vue-class-component';
 import Header from '@/components/Header.vue';
 
 @Component({
+  metaInfo: {
+    title: 'BidSide',
+    titleTemplate: '%s | BidSide'
+  },
+
   components: {
     Header
   }
