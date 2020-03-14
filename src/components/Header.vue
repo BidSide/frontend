@@ -34,7 +34,9 @@
 </template>
 
 <script>
-export default {
-  name: 'Header'
-};
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+@Component
+export default class Header extends Vue {}
 </script>
