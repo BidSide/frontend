@@ -1,11 +1,33 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "bidside-frontend",
+  "version": "1.0.0",
   "private": true,
+  "author": {
+    "name": "Richárd Szegh",
+    "email": "richard.szegh@gmail.com",
+    "url": "https://github.com/richardszegh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BidSide/frontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BidSide/frontend/issues"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "prettier -c .prettierrc --write",
+      "vue-cli-service lint",
+      "git add"
+    ]
   },
   "dependencies": {
     "core-js": "^3.6.4",
@@ -13,6 +35,7 @@
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.1.5",
+    "vuetify": "^2.2.11",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
@@ -34,15 +57,8 @@
     "sass": "^1.25.0",
     "sass-loader": "^8.0.2",
     "typescript": "~3.7.5",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "vue-cli-plugin-vuetify": "~2.0.5",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.3.0"
   }
 }
