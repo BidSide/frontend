@@ -4,22 +4,33 @@ import VueMeta from 'vue-meta';
 
 // Components
 import Home from '@/views/Home.vue';
+import Login from '@/views/Login.vue';
+import Register from '@/views/Register.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueMeta, {
   refreshOnceOnNavigation: true
 });
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  }
-];
-
 const router = new VueRouter({
-  routes
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    }
+  ]
 });
 
 export default router;
