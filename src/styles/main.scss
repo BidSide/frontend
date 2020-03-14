@@ -1,6 +1,9 @@
+@import '~vuetify/src/styles/styles';
+@import './colors';
+
 .bidside-link {
   text-decoration: none !important;
-  transition: 0.3s;
+  transition: $primary-transition;
 
   &-primary {
     color: $primary !important;
