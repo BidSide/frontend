@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- // TODO: toggle drawer -->
-    <v-btn icon>
+    <v-btn icon @click.prevent="$emit('openDrawer')">
       <v-icon>mdi-menu</v-icon>
     </v-btn>
   </div>

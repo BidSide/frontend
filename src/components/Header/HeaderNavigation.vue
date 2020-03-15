@@ -7,7 +7,7 @@
 
     <!-- mobile -->
     <div class="d-block d-md-none">
-      <HeaderNavigationMobile />
+      <HeaderNavigationMobile @openDrawer="$emit('openDrawer')" />
     </div>
   </div>
 </template>

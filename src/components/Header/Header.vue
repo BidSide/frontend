@@ -21,7 +21,7 @@
 
     <v-spacer />
 
-    <HeaderNavigation :routes="routes" />
+    <HeaderNavigation :routes="routes" @openDrawer="$emit('openDrawer')" />
   </v-app-bar>
 </template>
 

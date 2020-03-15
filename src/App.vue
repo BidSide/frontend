@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header :routes="routes" />
+    <Header :routes="routes" @openDrawer="openDrawer" />
 
     <v-navigation-drawer v-model="isDrawerOpen" right light app>
       <DrawerContent :routes="routes" />
