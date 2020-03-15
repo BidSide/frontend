@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header />
+    <Header :routes="routes" />
 
     <v-content>
       <v-container fluid>
@@ -31,7 +31,25 @@ import Footer from '@/components/Footer/Footer.vue';
     Footer
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private routes = [
+    {
+      label: 'Home',
+      url: '/',
+      icon: 'mdi-home'
+    },
+    {
+      label: 'Login',
+      url: '/login',
+      icon: 'mdi-account'
+    },
+    {
+      label: 'Register',
+      url: '/register',
+      icon: 'mdi-account-plus'
+    }
+  ];
+}
 </script>
 
 <style lang="scss">

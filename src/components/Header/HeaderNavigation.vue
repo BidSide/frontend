@@ -7,7 +7,7 @@
 
     <!-- mobile -->
     <div class="d-block d-md-none">
-      <HeaderNavigationMobile :routes="routes" />
+      <HeaderNavigationMobile />
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
 // Components
 import HeaderNavigationDesktop from './HeaderNavigationDesktop.vue';
@@ -27,23 +28,10 @@ import HeaderNavigationMobile from './HeaderNavigationMobile.vue';
   }
 })
 export default class HeaderNavigation extends Vue {
-  // TODO: add icons
-  private routes = [
-    {
-      label: 'Home',
-      url: '/',
-      icon: 'mdi-home'
-    },
-    {
-      label: 'Login',
-      url: '/login',
-      icon: 'mdi-account'
-    },
-    {
-      label: 'Register',
-      url: '/register',
-      icon: 'mdi-account-plus'
-    }
-  ];
+  @Prop({
+    type: Array,
+    required: true
+  })
+  readonly routes!: [];
 }
 </script>
