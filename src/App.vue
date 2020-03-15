@@ -2,6 +2,10 @@
   <v-app>
     <Header :routes="routes" />
 
+    <v-navigation-drawer v-model="isDrawerOpen" right light app>
+      <DrawerContent :routes="routes" />
+    </v-navigation-drawer>
+
     <v-content>
       <v-container fluid>
         <router-view />
@@ -18,6 +22,7 @@ import Component from 'vue-class-component';
 
 // Components
 import Header from '@/components/Header/Header.vue';
+import DrawerContent from '@/components/Drawer/DrawerContent.vue';
 import Footer from '@/components/Footer/Footer.vue';
 
 @Component({
@@ -28,6 +33,7 @@ import Footer from '@/components/Footer/Footer.vue';
 
   components: {
     Header,
+    DrawerContent,
     Footer
   }
 })
@@ -49,6 +55,12 @@ export default class App extends Vue {
       icon: 'mdi-account-plus'
     }
   ];
+
+  private isDrawerOpen = false;
+
+  openDrawer() {
+    this.isDrawerOpen = !this.isDrawerOpen;
+  }
 }
 </script>
 

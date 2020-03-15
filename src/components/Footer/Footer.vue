@@ -1,5 +1,5 @@
 <template>
-  <v-footer>
+  <v-footer app>
     <v-container>
       <div class="d-flex align-center flex-column flex-sm-row">
         <h4>BidSide - {{ currentYear }}</h4>
