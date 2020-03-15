@@ -21,14 +21,13 @@
 
     <v-spacer />
 
-    <HeaderNavigation :routes="routes" />
+    <HeaderNavigation />
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
 
 // Components
 import HeaderNavigation from './HeaderNavigation.vue';
@@ -38,11 +37,5 @@ import HeaderNavigation from './HeaderNavigation.vue';
     HeaderNavigation
   }
 })
-export default class Header extends Vue {
-  @Prop({
-    type: Array,
-    required: true
-  })
-  readonly routes!: [];
-}
+export default class Header extends Vue {}
 </script>

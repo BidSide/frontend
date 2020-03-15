@@ -2,22 +2,12 @@
   <div>
     <!-- desktop -->
     <div class="d-none d-md-block">
-      <router-link
-        v-for="(route, index) in routes"
-        :key="index"
-        :to="route.url"
-        class="navlink bidside-link bidside-link-white font-weight-bold"
-      >
-        {{ route.label }}
-      </router-link>
+      <HeaderNavigationDesktop :routes="routes" />
     </div>
 
     <!-- mobile -->
     <div class="d-block d-md-none">
-      <!-- TODO: emit open drawer -->
-      <v-btn icon>
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <HeaderNavigationMobile :routes="routes" />
     </div>
   </div>
 </template>
@@ -25,36 +15,35 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
 
-@Component
+// Components
+import HeaderNavigationDesktop from './HeaderNavigationDesktop.vue';
+import HeaderNavigationMobile from './HeaderNavigationMobile.vue';
+
+@Component({
+  components: {
+    HeaderNavigationDesktop,
+    HeaderNavigationMobile
+  }
+})
 export default class HeaderNavigation extends Vue {
-  @Prop({
-    type: Array,
-    required: true
-  })
-  readonly routes!: [];
+  // TODO: add icons
+  private routes = [
+    {
+      label: 'Home',
+      url: '/',
+      icon: 'mdi-home'
+    },
+    {
+      label: 'Login',
+      url: '/login',
+      icon: 'mdi-account'
+    },
+    {
+      label: 'Register',
+      url: '/register',
+      icon: 'mdi-account-plus'
+    }
+  ];
 }
 </script>
-
-<style lang="scss" scoped>
-.navlink {
-  position: relative;
-
-  + .navlink {
-    margin-left: $spacer * 8;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -$spacer * 5;
-      width: 2px;
-      height: 100%;
-      background-color: white;
-      pointer-events: none;
-      cursor: default;
-    }
-  }
-}
-</style>

@@ -1,11 +1,11 @@
 <template>
-  <v-app class="relative">
-    <Header :routes="routes" />
-
-    <Drawer :routes="routes" :isDrawerOpen="isDrawerOpen" />
+  <v-app>
+    <Header />
 
     <v-content>
-      <router-view />
+      <v-container fluid>
+        <router-view />
+      </v-container>
     </v-content>
 
     <Footer />
@@ -18,7 +18,6 @@ import Component from 'vue-class-component';
 
 // Components
 import Header from '@/components/Header/Header.vue';
-import Drawer from '@/components/Drawer/Drawer.vue';
 import Footer from '@/components/Footer/Footer.vue';
 
 @Component({
@@ -29,35 +28,10 @@ import Footer from '@/components/Footer/Footer.vue';
 
   components: {
     Header,
-    Drawer,
     Footer
   }
 })
-export default class App extends Vue {
-  // TODO: add icons
-  private routes = [
-    {
-      label: 'Home',
-      url: '/',
-      icon: ''
-    },
-    {
-      label: 'Login',
-      url: '/login',
-      icon: ''
-    },
-    {
-      label: 'Register',
-      url: '/register',
-      icon: ''
-    }
-  ];
-  private isDrawerOpen = false;
-
-  toggleDrawer(): void {
-    this.isDrawerOpen = !this.isDrawerOpen;
-  }
-}
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">
