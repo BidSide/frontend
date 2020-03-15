@@ -2,7 +2,7 @@
   <v-footer app>
     <v-container>
       <div class="d-flex align-center flex-column flex-sm-row">
-        <h4>BidSide - {{ currentYear }}</h4>
+        <h4>BidSide - &copy;{{ currentYear }}</h4>
 
         <v-spacer />
 
