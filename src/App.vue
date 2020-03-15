@@ -53,6 +53,11 @@ export default class App extends Vue {
       label: 'Register',
       url: '/register',
       icon: 'mdi-account-plus'
+    },
+    {
+      label: 'Profile',
+      url: '/profile',
+      icon: 'mdi-account'
     }
   ];
 

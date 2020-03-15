@@ -6,6 +6,7 @@ import VueMeta from 'vue-meta';
 import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
+import Profile from '@/views/Profile.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueMeta, {
@@ -29,6 +30,11 @@ const router = new VueRouter({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     }
   ]
 });
