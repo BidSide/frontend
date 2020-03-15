@@ -60,7 +60,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { required, email, minLength } from 'vuelidate/lib/validators';
+import { required, email } from 'vuelidate/lib/validators';
 
 @Component({
   metaInfo: {
@@ -69,7 +69,7 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 
   validations: {
     email: { required, email },
-    password: { required, minLength: minLength(6) }
+    password: { required }
   }
 })
 export default class Login extends Vue {
@@ -80,23 +80,18 @@ export default class Login extends Vue {
 
   get emailErrors() {
     const errors: string[] = [];
-
     if (this.$v.email && this.$v.email.$dirty) {
-      !this.$v.email.required && errors.push('Email is required!');
-      !this.$v.email.email && errors.push('Email must be a valid email!');
+      !this.$v.email.required && errors.push('Please enter your email!');
+      !this.$v.email.email &&
+        errors.push('Entered email address is not a valid email address!');
     }
-
     return errors;
   }
   get passwordErrors() {
     const errors: string[] = [];
-
     if (this.$v.password && this.$v.password.$dirty) {
-      !this.$v.password.required && errors.push('Password is required!');
-      !this.$v.password.minLength &&
-        errors.push('Password must be at least 6 characters long!');
+      !this.$v.password.required && errors.push('Please enter your password!');
     }
-
     return errors;
   }
 
