@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar color="primary" dark app>
     <div class="d-flex align-center">
       <router-link to="/">
         <v-img
@@ -21,13 +21,14 @@
 
     <v-spacer />
 
-    <HeaderNavigation />
+    <HeaderNavigation :routes="routes" @openDrawer="$emit('openDrawer')" />
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
 // Components
 import HeaderNavigation from './HeaderNavigation.vue';
@@ -37,5 +38,11 @@ import HeaderNavigation from './HeaderNavigation.vue';
     HeaderNavigation
   }
 })
-export default class Header extends Vue {}
+export default class Header extends Vue {
+  @Prop({
+    type: Array,
+    required: true
+  })
+  readonly routes!: [];
+}
 </script>
