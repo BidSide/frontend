@@ -2,14 +2,12 @@
   <v-app>
     <Header :routes="routes" @openDrawer="openDrawer" />
 
-    <v-navigation-drawer v-model="isDrawerOpen" right light app>
+    <v-navigation-drawer v-model="isDrawerOpen" right light app temporary>
       <DrawerContent :routes="routes" />
     </v-navigation-drawer>
 
     <v-content>
-      <v-container fluid>
-        <router-view />
-      </v-container>
+      <router-view />
     </v-content>
 
     <Footer />
