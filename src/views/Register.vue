@@ -167,8 +167,14 @@ export default class Register extends Vue {
 
     this.isSubmitting = true;
     try {
-      // TODO: register user
-      console.log('registering...');
+      await this.$store.dispatch('registerUser', {
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        password: this.password
+      });
+
+      this.$router.push('/');
     } catch (error) {
       // TODO: handle error
       console.error(error);
