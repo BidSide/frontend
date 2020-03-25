@@ -1,3 +1,7 @@
+html {
+  overflow-y: auto;
+}
+
 .bidside-link {
   text-decoration: none !important;
   transition: $primary-transition;

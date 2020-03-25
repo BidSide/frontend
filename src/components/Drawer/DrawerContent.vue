@@ -22,7 +22,7 @@
     <v-divider />
 
     <v-list-item
-      v-for="(route, index) in routes"
+      v-for="(route, index) in visibleRoutes"
       :key="index"
       link
       :to="route.url"
@@ -39,6 +39,23 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
+    <v-list-item
+      v-if="$store.getters.getJwt"
+      @click="$store.dispatch('logout')"
+    >
+      <v-list-item-icon>
+        <v-icon>
+          {{ 'mdi-exit-to-app' }}
+        </v-icon>
+      </v-list-item-icon>
+
+      <v-list-item-content>
+        <v-list-item-title>
+          {{ 'Logout' }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
   </v-list>
 </template>
 
@@ -47,12 +64,18 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
+import Route from '@/types/route';
+
 @Component
 export default class DrawerContent extends Vue {
   @Prop({
     type: Array,
     required: true
   })
-  readonly routes!: [];
+  readonly routes!: Route[];
+
+  get visibleRoutes() {
+    return this.routes.filter(route => route.show);
+  }
 }
 </script>
