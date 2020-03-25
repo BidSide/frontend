@@ -1,7 +1,8 @@
 import { Module } from 'vuex';
 import axios from 'axios';
 
-const baseURL: string = process.env.VUE_APP_BIDSIDE_BACKEND_URL || '';
+const baseURL: string =
+  window.location.origin + process.env.VUE_APP_BIDSIDE_BACKEND_URL || '';
 
 import { AuthState } from './auth.types';
 
