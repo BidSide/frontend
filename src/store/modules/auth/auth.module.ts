@@ -16,6 +16,8 @@ const auth: Module<AuthState, {}> = {
 
       if (jwt) {
         localStorage.setItem('jwt', jwt);
+      } else {
+        localStorage.removeItem('jwt');
       }
     }
   },

@@ -8,6 +8,16 @@
     >
       {{ route.label }}
     </router-link>
+
+    <router-link
+      v-if="$store.getters.getJwt"
+      to="/"
+      class="navlink bidside-link bidside-link-white font-weight-bold"
+    >
+      <span @click="$store.dispatch('logout')">
+        {{ 'Logout' }}
+      </span>
+    </router-link>
   </nav>
 </template>
 
