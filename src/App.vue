@@ -23,6 +23,8 @@ import Header from '@/components/Header/Header.vue';
 import DrawerContent from '@/components/Drawer/DrawerContent.vue';
 import Footer from '@/components/Footer/Footer.vue';
 
+import Route from '@/types/route';
+
 @Component({
   metaInfo: {
     title: 'BidSide',
@@ -36,30 +38,36 @@ import Footer from '@/components/Footer/Footer.vue';
   }
 })
 export default class App extends Vue {
-  private routes = [
-    {
-      label: 'Home',
-      url: '/',
-      icon: 'mdi-home'
-    },
-    {
-      label: 'Login',
-      url: '/login',
-      icon: 'mdi-account'
-    },
-    {
-      label: 'Register',
-      url: '/register',
-      icon: 'mdi-account-plus'
-    },
-    {
-      label: 'Profile',
-      url: '/profile',
-      icon: 'mdi-account'
-    }
-  ];
-
   private isDrawerOpen = false;
+
+  get routes(): Route[] {
+    return [
+      {
+        label: 'Home',
+        url: '/',
+        icon: 'mdi-home',
+        show: true
+      },
+      {
+        label: 'Login',
+        url: '/login',
+        icon: 'mdi-account',
+        show: !this.$store.getters.getJwt
+      },
+      {
+        label: 'Register',
+        url: '/register',
+        icon: 'mdi-account-plus',
+        show: !this.$store.getters.getJwt
+      },
+      {
+        label: 'Profile',
+        url: '/profile',
+        icon: 'mdi-account',
+        show: this.$store.getters.getJwt
+      }
+    ];
+  }
 
   openDrawer() {
     this.isDrawerOpen = !this.isDrawerOpen;

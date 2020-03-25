@@ -22,7 +22,7 @@
     <v-divider />
 
     <v-list-item
-      v-for="(route, index) in routes"
+      v-for="(route, index) in visibleRoutes"
       :key="index"
       link
       :to="route.url"
@@ -47,12 +47,18 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
+import Route from '@/types/route';
+
 @Component
 export default class DrawerContent extends Vue {
   @Prop({
     type: Array,
     required: true
   })
-  readonly routes!: [];
+  readonly routes!: Route[];
+
+  get visibleRoutes() {
+    return this.routes.filter(route => route.show);
+  }
 }
 </script>
