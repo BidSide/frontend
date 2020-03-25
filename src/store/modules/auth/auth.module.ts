@@ -7,13 +7,16 @@ import { AuthState } from './auth.types';
 
 const auth: Module<AuthState, {}> = {
   state: {
-    jwt: null
+    jwt: localStorage.getItem('jwt')
   },
 
   mutations: {
     setJwt(state, { jwt }: { jwt: string | null }) {
       state.jwt = jwt;
-      console.log(state);
+
+      if (jwt) {
+        localStorage.setItem('jwt', jwt);
+      }
     }
   },
 
