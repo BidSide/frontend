@@ -1,7 +1,3 @@
-import Auth from './auth.module';
+import auth from './auth.module';
 
-import { User } from './auth.types';
-
-export { Auth };
-
-export { User };
+export default auth;

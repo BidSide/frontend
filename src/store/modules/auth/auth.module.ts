@@ -1,58 +1,103 @@
-import { VuexModule, Module, Action, Mutation } from 'vuex-module-decorators';
+import { Module } from 'vuex';
+import axios from 'axios';
 
-import { User } from './auth.types';
+const baseURL: string = process.env.VUE_APP_BIDSIDE_BACKEND_URL || '';
 
-@Module
-export default class Auth extends VuexModule {
-  private user: User | null = null;
+import { AuthState } from './auth.types';
 
-  @Mutation
-  setUser(user: User | null) {
-    this.user = user;
+const auth: Module<AuthState, {}> = {
+  state: {
+    jwt: null
+  },
+
+  mutations: {
+    setJwt(state, { jwt }: { jwt: string | null }) {
+      state.jwt = jwt;
+      console.log(state);
+    }
+  },
+
+  getters: {
+    getJwt(state) {
+      return state.jwt;
+    }
+  },
+
+  actions: {
+    logout({ commit }) {
+      commit('setJwt', {
+        jwt: null
+      });
+    },
+
+    async login(
+      { commit },
+      { email, password }: { email: string; password: string }
+    ) {
+      const response = await axios.post(
+        `${baseURL}/auth/login`,
+        {
+          email,
+          password
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (!response.data || !response.data.token) {
+        throw new Error('Login failed, please try again!');
+      }
+
+      commit('setJwt', {
+        jwt: response.data.token
+      });
+    },
+
+    async register(
+      { dispatch },
+      {
+        email,
+        password,
+        passwordAgain,
+        firstName,
+        lastName
+      }: {
+        email: string;
+        password: string;
+        passwordAgain: string;
+        firstName?: string;
+        lastName?: string;
+      }
+    ) {
+      const response = await axios.post(
+        `${baseURL}/auth/signup`,
+        {
+          email,
+          password,
+          passwordAgain,
+          firstName,
+          lastName
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (!response.data) {
+        throw new Error('Registration failed, please try again!');
+      }
+
+      dispatch('login', {
+        email,
+        password
+      });
+    }
   }
+};
 
-  @Action({ commit: 'setUser' })
-  async registerUser({
-    email,
-    firstName,
-    lastName,
-    password
-  }: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-  }) {
-    // TODO: make actual request
-    console.log(`${email}:${password} is registering...`);
-
-    const user: User = {
-      jwt: 'asd123',
-      email: 'test@gmail.com',
-      firstName: 'Jóska',
-      lastName: 'Pista'
-    };
-
-    return user;
-  }
-
-  @Action({ commit: 'setUser' })
-  async loginUser({ email, password }: { email: string; password: string }) {
-    // TODO: make actual request
-    console.log(`${email}:${password} is logging in...`);
-
-    const user: User = {
-      jwt: 'asd123',
-      email: 'test@gmail.com',
-      firstName: 'Jóska',
-      lastName: 'Pista'
-    };
-
-    return user;
-  }
-
-  @Action({ commit: 'setUser' })
-  logoutUser() {
-    return null;
-  }
-}
+export default auth;

@@ -103,14 +103,13 @@ export default class Login extends Vue {
 
     this.isSubmitting = true;
     try {
-      await this.$store.dispatch('loginUser', {
+      await this.$store.dispatch('login', {
         email: this.email,
         password: this.password
       });
 
       this.$router.push('/');
     } catch (error) {
-      // TODO: handle error
       console.error(error);
     }
     this.isSubmitting = false;
