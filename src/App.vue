@@ -46,25 +46,25 @@ export default class App extends Vue {
         label: 'Home',
         url: '/',
         icon: 'mdi-home',
-        show: true
+        visible: true
       },
       {
         label: 'Login',
         url: '/login',
         icon: 'mdi-account',
-        show: !this.$store.getters.getJwt
+        visible: !this.$store.getters.getJwt
       },
       {
         label: 'Register',
         url: '/register',
         icon: 'mdi-account-plus',
-        show: !this.$store.getters.getJwt
+        visible: !this.$store.getters.getJwt
       },
       {
         label: 'Profile',
         url: '/profile',
         icon: 'mdi-account',
-        show: this.$store.getters.getJwt
+        visible: this.$store.getters.getJwt
       }
     ];
   }

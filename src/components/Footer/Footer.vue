@@ -1,21 +1,8 @@
 <template>
   <v-footer app>
     <v-container>
-      <div class="d-flex align-center flex-column flex-sm-row">
+      <div class="d-flex align-center justify-center">
         <h4>BidSide - &copy;{{ currentYear }}</h4>
-
-        <v-spacer />
-
-        <h4 class="mt-2 mt-sm-0">
-          Created by:
-          <a
-            href="https://github.com/richardszegh"
-            target="_blank"
-            class="bidside-link bidside-link-primary"
-          >
-            Richárd Szegh
-          </a>
-        </h4>
       </div>
     </v-container>
   </v-footer>

@@ -50,7 +50,7 @@
             <v-btn
               color="primary"
               width="80%"
-              @click.prevent="submit"
+              @click="submit"
               :loading="isSubmitting"
             >
               Register
