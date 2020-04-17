@@ -40,10 +40,7 @@
       </v-list-item-content>
     </v-list-item>
 
-    <v-list-item
-      v-if="$store.getters.getJwt"
-      @click="$store.dispatch('logout')"
-    >
+    <v-list-item v-if="$store.getters.getJwt" @click="handleLogout">
       <v-list-item-icon>
         <v-icon>
           {{ 'mdi-exit-to-app' }}
@@ -75,7 +72,12 @@ export default class DrawerContent extends Vue {
   readonly routes!: Route[];
 
   get visibleRoutes() {
-    return this.routes.filter(route => route.show);
+    return this.routes.filter(route => route.visible);
+  }
+
+  handleLogout() {
+    this.$store.dispatch('logout');
+    this.$router.push('/');
   }
 }
 </script>

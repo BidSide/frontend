@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-btn icon @click.prevent="$emit('openDrawer')">
-      <v-icon>mdi-menu</v-icon>
+    <v-btn icon @click="$emit('openDrawer')">
+      <v-icon>{{ 'mdi-menu' }}</v-icon>
     </v-btn>
   </div>
 </template>

@@ -14,7 +14,7 @@
       to="/"
       class="navlink bidside-link bidside-link-white font-weight-bold"
     >
-      <span @click="$store.dispatch('logout')">
+      <span @click="handleLogout">
         {{ 'Logout' }}
       </span>
     </router-link>
@@ -37,7 +37,12 @@ export default class HeaderNavigationDesktop extends Vue {
   readonly routes!: Route[];
 
   get visibleRoutes() {
-    return this.routes.filter(route => route.show);
+    return this.routes.filter(route => route.visible);
+  }
+
+  handleLogout() {
+    this.$store.dispatch('logout');
+    this.$router.push('/');
   }
 }
 </script>
