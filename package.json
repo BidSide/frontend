@@ -20,7 +20,8 @@
     "lint": "vue-cli-service lint"
   },
   "gitHooks": {
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "pre-push": "npm run lint"
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
