@@ -20,7 +20,7 @@ import Component from 'vue-class-component';
 import Header from '@/components/Header/Header.vue';
 import DrawerContent from '@/components/Drawer/DrawerContent.vue';
 
-import Route from '@/types/route';
+import { Route } from '@/types';
 
 @Component({
   metaInfo: {
@@ -34,7 +34,7 @@ import Route from '@/types/route';
   }
 })
 export default class App extends Vue {
-  private isDrawerOpen = false;
+  isDrawerOpen = false;
 
   get routes(): Route[] {
     return [

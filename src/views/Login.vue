@@ -73,10 +73,10 @@ import { required, email } from 'vuelidate/lib/validators';
   }
 })
 export default class Login extends Vue {
-  private isSubmitting = false;
+  isSubmitting = false;
 
-  private email = '';
-  private password = '';
+  email = '';
+  password = '';
 
   get emailErrors() {
     const errors: string[] = [];
