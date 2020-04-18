@@ -28,6 +28,7 @@ const router = new VueRouter({
     },
     {
       path: '/products',
+      alias: '/products/category/:categoryName',
       name: 'Products',
       component: Products
     },

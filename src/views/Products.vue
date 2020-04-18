@@ -5,15 +5,15 @@
       <v-row>
         <v-col cols="3">
           <!-- Categories -->
-          <v-sheet elevation="2" class="pa-4">
-            <p class="title">
-              {{ 'Categories' }}
-            </p>
-
+          <v-sheet elevation="2">
             <div v-if="categoriesLoading" class="d-flex justify-center">
               <v-progress-circular indeterminate color="primary" />
             </div>
-            <!-- TODO: category list -->
+
+            <CategoryList
+              v-else-if="categories.length > 0"
+              :categories="categories"
+            />
             <p v-else class="subtitle text-center">
               {{ `Couldn't find any categories.` }}
             </p>
@@ -66,6 +66,7 @@ import Component from 'vue-class-component';
 // Components
 import ProductSearch from '@/components/Products/ProductSearch.vue';
 import ProductList from '@/components/Products/ProductList.vue';
+import CategoryList from '@/components/Categories/CategoryList.vue';
 
 @Component({
   metaInfo: {
@@ -74,12 +75,15 @@ import ProductList from '@/components/Products/ProductList.vue';
 
   components: {
     ProductSearch,
-    ProductList
+    ProductList,
+    CategoryList
   }
 })
 export default class Products extends Vue {
   loading = false;
   categoriesLoading = false;
+
+  // TODO: get categoryName from route and display products based on that
 
   get products() {
     return this.$store.getters.getProducts;
