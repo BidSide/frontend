@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-row justify="center" style="max-width: initial;">
-      <v-col cols="8">
+      <v-col sm="8" xs="12">
         <div class="d-flex flex-column align-center">
           <h1 class="display-1 text-center">
             {{ 'Sorry, but the page you just tried to visit, does not exist.' }}
