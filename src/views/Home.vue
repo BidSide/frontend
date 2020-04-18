@@ -27,7 +27,18 @@
         <ProductSearch />
 
         <v-sheet elevation="2" class="pa-4">
-          <ProductList :products="products" preview />
+          <div v-if="loading" class="d-flex justify-center">
+            <v-progress-circular indeterminate color="primary" />
+          </div>
+
+          <ProductList
+            v-else-if="products.length > 0"
+            :products="products"
+            preview
+          />
+          <p v-else class="display-1 text-center">
+            {{ `Couldn't find any products.` }}
+          </p>
         </v-sheet>
       </v-col>
     </v-row>
@@ -55,43 +66,26 @@ import ProductList from '@/components/Products/ProductList.vue';
   }
 })
 export default class Home extends Vue {
-  products: Product[] = [
-    {
-      id: 'asd1',
-      name: 'Product 1',
-      description: 'Lorem ipsum dolor sit amet.',
-      category: 'tech',
-      starterPrice: 300,
-      currentPrice: 300,
-      buyoutPrice: 400
-    },
-    {
-      id: 'asd2',
-      name: 'Product 2',
-      description: 'Lorem ipsum dolor sit amet.',
-      category: 'misc',
-      starterPrice: 250,
-      currentPrice: 450,
-      buyoutPrice: 500
-    },
-    {
-      id: 'asd3',
-      name: 'Product 3',
-      description: 'Lorem ipsum dolor sit amet.',
-      category: 'tech',
-      starterPrice: 699,
-      currentPrice: 750,
-      buyoutPrice: 1200
-    },
-    {
-      id: 'asd4',
-      name: 'Product 4',
-      description: 'Lorem ipsum dolor sit amet.',
-      category: 'misc',
-      starterPrice: 333,
-      currentPrice: 333,
-      buyoutPrice: 666
+  loading = false;
+
+  get products(): Product[] {
+    return this.$store.getters.getProducts;
+  }
+
+  mounted() {
+    this.fetchProducts();
+  }
+
+  async fetchProducts() {
+    try {
+      this.loading = true;
+
+      await this.$store.dispatch('fetchProducts');
+    } catch (error) {
+      console.error(error);
     }
-  ];
+
+    this.loading = false;
+  }
 }
 </script>

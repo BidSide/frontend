@@ -7,7 +7,7 @@
         </v-card-title>
 
         <v-card-subtitle>
-          {{ product.category }}
+          {{ product.category.name }}
         </v-card-subtitle>
 
         <v-card-text>
@@ -23,7 +23,11 @@
             </span>
 
             <span class="font-weight-bold subtitle-1">
-              {{ product.currentPrice }}
+              {{
+                product.currentPrice
+                  ? product.currentPrice
+                  : product.starterPrice
+              }}
               <v-icon small color="secondary">
                 {{ 'mdi-currency-usd-circle' }}
               </v-icon>
