@@ -5,7 +5,8 @@
         v-for="(product, index) in preview ? previewProducts : products"
         :key="index"
         cols="12"
-        lg="4"
+        lg="6"
+        xl="4"
       >
         <ProductListItem :product="product" />
       </v-col>

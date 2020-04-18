@@ -45,6 +45,12 @@ export default class App extends Vue {
         visible: true
       },
       {
+        label: 'Products',
+        url: '/products',
+        icon: 'mdi-apps',
+        visible: true
+      },
+      {
         label: 'Login',
         url: '/login',
         icon: 'mdi-account',

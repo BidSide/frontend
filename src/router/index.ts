@@ -7,6 +7,7 @@ import store from '@/store';
 
 // Components
 import Home from '@/views/Home.vue';
+import Products from '@/views/Products.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import Profile from '@/views/Profile.vue';
@@ -24,6 +25,11 @@ const router = new VueRouter({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/products',
+      name: 'Products',
+      component: Products
     },
     {
       path: '/login',
