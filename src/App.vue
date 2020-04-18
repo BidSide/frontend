@@ -34,7 +34,7 @@ import Route from '@/types/route';
   }
 })
 export default class App extends Vue {
-  private isDrawerOpen = false;
+  isDrawerOpen = false;
 
   get routes(): Route[] {
     return [

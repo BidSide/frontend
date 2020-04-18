@@ -108,13 +108,13 @@ import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
   }
 })
 export default class Register extends Vue {
-  private isSubmitting = false;
+  isSubmitting = false;
 
-  private email = '';
-  private firstName = '';
-  private lastName = '';
-  private password = '';
-  private passwordAgain = '';
+  email = '';
+  firstName = '';
+  lastName = '';
+  password = '';
+  passwordAgain = '';
 
   get emailErrors() {
     const errors: string[] = [];

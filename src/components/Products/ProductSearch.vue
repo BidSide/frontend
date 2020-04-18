@@ -26,9 +26,7 @@ import { required } from 'vuelidate/lib/validators';
   }
 })
 export default class ProductSearch extends Vue {
-  private isSubmitting = false;
-
-  private searchValue = '';
+  searchValue = '';
 
   get searchValueErrors() {
     const errors: string[] = [];
@@ -45,12 +43,7 @@ export default class ProductSearch extends Vue {
       return;
     }
 
-    this.isSubmitting = true;
-
-    // TODO: handle search
-    console.log('Searched for: ', this.searchValue);
-
-    this.isSubmitting = false;
+    this.$router.push(`/search/${this.searchValue}`);
   }
 }
 </script>
