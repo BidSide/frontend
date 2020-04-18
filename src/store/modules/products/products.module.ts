@@ -13,7 +13,11 @@ const products: Module<ProductsState, {}> = {
     products: []
   },
 
-  mutations: {},
+  mutations: {
+    setProducts(state, { products }: { products: Product[] }) {
+      state.products = products;
+    }
+  },
 
   getters: {
     getProducts(state) {
@@ -21,7 +25,17 @@ const products: Module<ProductsState, {}> = {
     }
   },
 
-  actions: {}
+  actions: {
+    async fetchProducts({ commit }) {
+      const response = await axios.get(`${baseURL}/product`);
+
+      if (Array.isArray(response.data)) {
+        commit('setProducts', {
+          products: response.data
+        });
+      }
+    }
+  }
 };
 
 export default products;
