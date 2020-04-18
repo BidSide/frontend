@@ -1,4 +1,4 @@
-import Product from '@/types/response/product';
+import { Product } from '@/types';
 
 export interface ProductsState {
   products: Product[];

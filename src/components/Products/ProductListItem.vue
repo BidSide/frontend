@@ -63,7 +63,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
-import Product from '@/types/response/product';
+import { Product } from '@/types';
 
 @Component
 export default class ProductListItem extends Vue {

@@ -38,7 +38,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-import Product from '@/types/response/product';
+import { Product } from '@/types';
 
 // Components
 import ProductSearch from '@/components/Products/ProductSearch.vue';

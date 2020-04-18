@@ -1,6 +1,8 @@
 import { Module } from 'vuex';
 import axios from 'axios';
 
+import { Product } from '@/types';
+
 // config
 import { baseURL } from '@/config';
 
