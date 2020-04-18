@@ -9,8 +9,6 @@
     <v-content>
       <router-view />
     </v-content>
-
-    <Footer />
   </v-app>
 </template>
 
@@ -21,7 +19,6 @@ import Component from 'vue-class-component';
 // Components
 import Header from '@/components/Header/Header.vue';
 import DrawerContent from '@/components/Drawer/DrawerContent.vue';
-import Footer from '@/components/Footer/Footer.vue';
 
 import Route from '@/types/route';
 
@@ -33,8 +30,7 @@ import Route from '@/types/route';
 
   components: {
     Header,
-    DrawerContent,
-    Footer
+    DrawerContent
   }
 })
 export default class App extends Vue {
