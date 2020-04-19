@@ -115,7 +115,8 @@ import Component from 'vue-class-component';
 @Component({
   metaInfo: {
     title: 'Product'
-}
+  }
+})
 export default class ProductPage extends Vue {
   loading = false;
 
