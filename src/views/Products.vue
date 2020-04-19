@@ -21,7 +21,7 @@
         </v-col>
 
         <v-col cols="9">
-          <ProductSearch />
+          <ProductSearch :category="$route.params.categoryName" />
 
           <!-- Products -->
           <v-sheet elevation="2" class="pa-4">
@@ -41,7 +41,7 @@
     <!--Categories & Products (mobile) -->
     <div class="d-block d-md-none">
       <div class="mb-5">
-        <ProductSearch />
+        <ProductSearch :category="$route.params.categoryName" />
 
         <!-- Categories -->
         <CategoryPicker :loading="categoriesLoading" :categories="categories" />

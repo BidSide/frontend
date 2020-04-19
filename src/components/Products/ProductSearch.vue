@@ -3,7 +3,9 @@
     <div class="d-flex justify-space-between">
       <v-text-field
         type="text"
-        label="Search products..."
+        :label="
+          category ? `Search in ${category}...` : 'Search in all categories...'
+        "
         v-model="searchValue"
         :error-messages="searchValueErrors"
         append-icon="mdi-magnify"
@@ -18,6 +20,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 import { required } from 'vuelidate/lib/validators';
 
 @Component({
@@ -26,6 +29,12 @@ import { required } from 'vuelidate/lib/validators';
   }
 })
 export default class ProductSearch extends Vue {
+  @Prop({
+    type: String,
+    required: false
+  })
+  readonly category: string | undefined;
+
   searchValue = '';
 
   get searchValueErrors() {
@@ -43,7 +52,11 @@ export default class ProductSearch extends Vue {
       return;
     }
 
-    this.$router.push(`/search/${this.searchValue}`);
+    if (this.category) {
+      this.$router.push(`/search/${this.category}/${this.searchValue}`);
+    } else {
+      this.$router.push(`/search/${this.searchValue}`);
+    }
   }
 }
 </script>
