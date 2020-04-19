@@ -21,9 +21,9 @@
         </v-col>
 
         <v-col cols="9">
-          <!-- Products -->
           <ProductSearch />
 
+          <!-- Products -->
           <v-sheet elevation="2" class="pa-4">
             <div v-if="loading" class="d-flex justify-center">
               <v-progress-circular indeterminate color="primary" />
@@ -40,11 +40,14 @@
 
     <!--Categories & Products (mobile) -->
     <div class="d-block d-md-none">
-      <!-- TODO: category list -->
+      <div class="mb-5">
+        <ProductSearch />
+
+        <!-- Categories -->
+        <CategoryPicker :loading="categoriesLoading" :categories="categories" />
+      </div>
 
       <!-- Products -->
-      <ProductSearch />
-
       <v-sheet elevation="2" class="pa-4">
         <div v-if="loading" class="d-flex justify-center">
           <v-progress-circular indeterminate color="primary" />
@@ -62,11 +65,15 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import { Watch } from 'vue-property-decorator';
+
+import { Route } from 'vue-router';
 
 // Components
 import ProductSearch from '@/components/Products/ProductSearch.vue';
 import ProductList from '@/components/Products/ProductList.vue';
 import CategoryList from '@/components/Categories/CategoryList.vue';
+import CategoryPicker from '@/components/Categories/CategoryPicker.vue';
 
 @Component({
   metaInfo: {
@@ -76,14 +83,13 @@ import CategoryList from '@/components/Categories/CategoryList.vue';
   components: {
     ProductSearch,
     ProductList,
-    CategoryList
+    CategoryList,
+    CategoryPicker
   }
 })
 export default class Products extends Vue {
   loading = false;
   categoriesLoading = false;
-
-  // TODO: get categoryName from route and display products based on that
 
   get products() {
     return this.$store.getters.getProducts;
@@ -92,16 +98,23 @@ export default class Products extends Vue {
     return this.$store.getters.getCategories;
   }
 
+  @Watch('$route')
+  onRouteChange(to: Route) {
+    this.fetchProducts(to.params.categoryName);
+  }
+
   mounted() {
-    this.fetchProducts();
+    this.fetchProducts(this.$route.params.categoryName);
     this.fetchCategories();
   }
 
-  async fetchProducts() {
+  async fetchProducts(categoryName?: string) {
     try {
       this.loading = true;
 
-      await this.$store.dispatch('fetchProducts');
+      await this.$store.dispatch('fetchProducts', {
+        categoryName: categoryName
+      });
     } catch (error) {
       console.error(error);
     }
