@@ -7,6 +7,7 @@ import store from '@/store';
 
 // Components
 import Home from '@/views/Home.vue';
+import Products from '@/views/Products.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import Profile from '@/views/Profile.vue';
@@ -22,22 +23,26 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
       component: Home
     },
     {
+      path: '/products',
+      component: Products
+    },
+    {
+      path: '/products/category/:categoryName',
+      component: Products
+    },
+    {
       path: '/login',
-      name: 'Login',
       component: Login
     },
     {
       path: '/register',
-      name: 'Register',
       component: Register
     },
     {
       path: '/profile',
-      name: 'Profile',
       component: Profile,
       beforeEnter(_, __, next) {
         if (!store.getters.getJwt) {
@@ -49,7 +54,6 @@ const router = new VueRouter({
     },
     {
       path: '*',
-      name: 'Page not found!',
       component: NotFound
     }
   ]
