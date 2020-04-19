@@ -35,13 +35,10 @@ const products: Module<ProductsState, {}> = {
   },
 
   actions: {
-    async fetchProducts(
-      { commit },
-      { categoryName }: { categoryName?: string }
-    ) {
+    async fetchProducts({ commit }, payload?: { categoryName?: string }) {
       const response = await axios.get(`${baseURL}/product`, {
         params: {
-          category: categoryName
+          category: payload ? payload.categoryName : undefined
         }
       });
 
