@@ -46,7 +46,7 @@
 
             <span class="font-weight-bold subtitle-1">
               {{ product.buyoutPrice }}
-              <v-icon small color="secondary">
+              <v-icon small color="primary">
                 {{ 'mdi-currency-usd-circle' }}
               </v-icon>
             </span>
