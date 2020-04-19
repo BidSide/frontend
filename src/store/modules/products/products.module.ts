@@ -35,9 +35,15 @@ const products: Module<ProductsState, {}> = {
   },
 
   actions: {
-    async fetchProducts({ commit }) {
-      // TODO: fetch produts by category (optionally)
-      const response = await axios.get(`${baseURL}/product`);
+    async fetchProducts(
+      { commit },
+      { categoryName }: { categoryName?: string }
+    ) {
+      const response = await axios.get(`${baseURL}/product`, {
+        params: {
+          category: categoryName
+        }
+      });
 
       if (Array.isArray(response.data)) {
         commit('setProducts', {
