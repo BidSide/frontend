@@ -1,5 +1,5 @@
 import { Module } from 'vuex';
-import axios from 'axios';
+import axios from '@/lib/axios';
 
 import { Profile } from '@/types';
 
@@ -115,12 +115,8 @@ const auth: Module<AuthState, {}> = {
       });
     },
 
-    async fetchProfile({ commit, state }) {
-      const response = await axios.get(`${baseURL}/profile`, {
-        headers: {
-          Authorization: `Bearer ${state.jwt}`
-        }
-      });
+    async fetchProfile({ commit }) {
+      const response = await axios.get(`${baseURL}/profile`);
 
       if (response.data) {
         commit('setProfile', {
