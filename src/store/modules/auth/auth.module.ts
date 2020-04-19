@@ -1,6 +1,8 @@
 import { Module } from 'vuex';
 import axios from 'axios';
 
+import { Profile } from '@/types';
+
 // config
 import { baseURL } from '@/config';
 
@@ -8,7 +10,8 @@ import { AuthState } from './auth.types';
 
 const auth: Module<AuthState, {}> = {
   state: {
-    jwt: localStorage.getItem('jwt')
+    jwt: localStorage.getItem('jwt'),
+    profile: null
   },
 
   mutations: {
@@ -20,12 +23,20 @@ const auth: Module<AuthState, {}> = {
       } else {
         localStorage.removeItem('jwt');
       }
+    },
+
+    setProfile(state, { profile }: { profile: Profile }) {
+      state.profile = profile;
     }
   },
 
   getters: {
     getJwt(state) {
       return state.jwt;
+    },
+
+    getProfile(state) {
+      return state.profile;
     }
   },
 
@@ -102,6 +113,20 @@ const auth: Module<AuthState, {}> = {
         email,
         password
       });
+    },
+
+    async fetchProfile({ commit, state }) {
+      const response = await axios.get(`${baseURL}/profile`, {
+        headers: {
+          Authorization: `Bearer ${state.jwt}`
+        }
+      });
+
+      if (response.data) {
+        commit('setProfile', {
+          profile: response.data
+        });
+      }
     }
   }
 };
