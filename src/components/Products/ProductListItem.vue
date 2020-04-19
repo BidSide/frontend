@@ -57,7 +57,7 @@
 
     <!-- View product -->
     <v-card-actions class="d-flex justify-end">
-      <v-btn color="primary" link :to="{ path: `/product/${product.id}` }">
+      <v-btn color="primary" link :to="{ path: `/product/${product._id}` }">
         {{ 'View' }}
 
         <v-icon class="ml-1">
