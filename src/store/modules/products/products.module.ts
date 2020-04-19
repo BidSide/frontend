@@ -1,5 +1,5 @@
 import { Module } from 'vuex';
-import axios from 'axios';
+import axios from '@/lib/axios';
 
 import { Product, Category } from '@/types';
 
