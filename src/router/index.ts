@@ -8,6 +8,7 @@ import store from '@/store';
 // Components
 import Home from '@/views/Home.vue';
 import Products from '@/views/Products.vue';
+import Search from '@/views/Search.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import Profile from '@/views/Profile.vue';
@@ -32,6 +33,14 @@ const router = new VueRouter({
     {
       path: '/products/category/:categoryName',
       component: Products
+    },
+    {
+      path: '/search/:searchTerm',
+      component: Search
+    },
+    {
+      path: '/search/:categoryName/:searchTerm',
+      component: Search
     },
     {
       path: '/login',
