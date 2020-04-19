@@ -71,17 +71,6 @@ export default class App extends Vue {
     ];
   }
 
-  beforeCreate() {
-    (async () => {
-      try {
-        await this.$store.dispatch('fetchProfile');
-      } catch (error) {
-        // token is expired, logout
-        this.$store.dispatch('logout');
-      }
-    })();
-  }
-
   openDrawer() {
     this.isDrawerOpen = !this.isDrawerOpen;
   }
