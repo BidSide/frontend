@@ -76,12 +76,28 @@
               </v-card-text>
 
               <v-card-actions class="d-flex justify-end flex-sm-column">
-                <v-btn color="secondary" width="100">
+                <v-btn
+                  color="secondary"
+                  width="100"
+                  class="d-flex justify-space-between"
+                >
                   {{ 'Bid' }}
+
+                  <v-icon small>
+                    {{ 'mdi-currency-usd-circle' }}
+                  </v-icon>
                 </v-btn>
 
-                <v-btn color="primary ml-4 ml-sm-0 mt-sm-4" width="100">
+                <v-btn
+                  color="primary ml-4 ml-sm-0 mt-sm-4"
+                  width="100"
+                  class="d-flex justify-space-between"
+                >
                   {{ 'Buyout' }}
+
+                  <v-icon small>
+                    {{ 'mdi-currency-usd-circle' }}
+                  </v-icon>
                 </v-btn>
               </v-card-actions>
             </div>
