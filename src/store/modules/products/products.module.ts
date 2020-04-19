@@ -11,7 +11,8 @@ import { ProductsState } from './products.types';
 const products: Module<ProductsState, {}> = {
   state: {
     products: [],
-    categories: []
+    categories: [],
+    product: null
   },
 
   mutations: {
@@ -21,6 +22,10 @@ const products: Module<ProductsState, {}> = {
 
     setCategories(state, { categories }: { categories: Category[] }) {
       state.categories = categories;
+    },
+
+    setProduct(state, { product }: { product: Product }) {
+      state.product = product;
     }
   },
 
@@ -31,6 +36,10 @@ const products: Module<ProductsState, {}> = {
 
     getCategories(state) {
       return state.categories;
+    },
+
+    getProduct(state) {
+      return state.product;
     }
   },
 
@@ -60,6 +69,16 @@ const products: Module<ProductsState, {}> = {
       if (Array.isArray(response.data)) {
         commit('setCategories', {
           categories: response.data
+        });
+      }
+    },
+
+    async fetchProduct({ commit }, { id }: { id: string }) {
+      const response = await axios.get(`${baseURL}/product/${id}`);
+
+      if (response.data) {
+        commit('setProduct', {
+          product: response.data
         });
       }
     }

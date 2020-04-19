@@ -46,7 +46,7 @@
 
             <span class="font-weight-bold subtitle-1">
               {{ product.buyoutPrice }}
-              <v-icon small color="secondary">
+              <v-icon small color="primary">
                 {{ 'mdi-currency-usd-circle' }}
               </v-icon>
             </span>
@@ -57,7 +57,7 @@
 
     <!-- View product -->
     <v-card-actions class="d-flex justify-end">
-      <v-btn color="primary" link :to="{ path: `/product/${product.id}` }">
+      <v-btn color="primary" link :to="{ path: `/product/${product._id}` }">
         {{ 'View' }}
 
         <v-icon class="ml-1">
