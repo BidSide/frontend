@@ -6,9 +6,14 @@ import { Product, Category } from '@/types';
 // config
 import { baseURL } from '@/config';
 
-import { ProductsState } from './products.types';
-
-const products: Module<ProductsState, {}> = {
+const products: Module<
+  {
+    products: Product[];
+    categories: Category[];
+    product: Product | null;
+  },
+  {}
+> = {
   state: {
     products: [],
     categories: [],
