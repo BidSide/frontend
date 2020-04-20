@@ -19,6 +19,10 @@ const profile: Module<
   mutations: {
     setProfile(state, { profile }: { profile: Profile }) {
       state.profile = profile;
+    },
+
+    updateBalance(state, { newBalance }: { newBalance: number }) {
+      if (state.profile) state.profile.wallet = newBalance;
     }
   },
 
@@ -35,6 +39,18 @@ const profile: Module<
       if (response.data) {
         commit('setProfile', {
           profile: response.data
+        });
+      }
+    },
+
+    async incrementBalance({ commit }, { amount }: { amount: number }) {
+      const response = await axios.post(`${baseURL}/profile/topup`, {
+        amount: Number(amount)
+      });
+
+      if (response.data) {
+        commit('updateBalance', {
+          newBalance: response.data.wallet
         });
       }
     }
