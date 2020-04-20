@@ -4,9 +4,9 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 // Modules
-import auth from './modules/auth';
-import products from './modules/products';
-import profile from './modules/profile';
+import auth from './modules/auth.module';
+import products from './modules/products.module';
+import profile from './modules/profile.module';
 
 export default new Vuex.Store({
   state: {},

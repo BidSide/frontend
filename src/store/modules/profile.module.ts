@@ -6,9 +6,12 @@ import { Profile } from '@/types';
 // config
 import { baseURL } from '@/config';
 
-import { ProfileState } from './profile.types';
-
-const profile: Module<ProfileState, {}> = {
+const profile: Module<
+  {
+    profile: Profile | null;
+  },
+  {}
+> = {
   state: {
     profile: null
   },

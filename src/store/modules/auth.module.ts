@@ -4,9 +4,12 @@ import axios from '@/lib/axios';
 // config
 import { baseURL } from '@/config';
 
-import { AuthState } from './auth.types';
-
-const auth: Module<AuthState, {}> = {
+const auth: Module<
+  {
+    jwt: string | null;
+  },
+  {}
+> = {
   state: {
     jwt: localStorage.getItem('jwt')
   },
