@@ -6,6 +6,7 @@ Vue.use(Vuex);
 // Modules
 import auth from './modules/auth';
 import products from './modules/products';
+import profile from './modules/profile';
 
 export default new Vuex.Store({
   state: {},
@@ -13,6 +14,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     auth,
-    products
+    products,
+    profile
   }
 });
