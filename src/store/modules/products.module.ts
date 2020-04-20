@@ -111,8 +111,8 @@ const products: Module<
       const response = await axios.post(`${baseURL}/product`, {
         name,
         description,
-        starterPrice,
-        buyoutPrice,
+        starterPrice: Number(starterPrice),
+        buyoutPrice: Number(buyoutPrice),
         category
       });
 
