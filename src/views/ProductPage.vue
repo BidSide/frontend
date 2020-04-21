@@ -80,6 +80,9 @@
                   color="secondary"
                   width="100"
                   class="d-flex justify-space-between"
+                  :disabled="
+                    profile && product.profile._id === profile.info.user
+                  "
                 >
                   {{ 'Bid' }}
 
@@ -89,9 +92,12 @@
                 </v-btn>
 
                 <v-btn
-                  color="primary ml-4 ml-sm-0 mt-sm-4"
+                  color="primary"
                   width="100"
-                  class="d-flex justify-space-between"
+                  class="d-flex justify-space-between ml-4 ml-sm-0 mt-sm-4"
+                  :disabled="
+                    profile && product.profile._id === profile.info.user
+                  "
                 >
                   {{ 'Buyout' }}
 
@@ -124,22 +130,43 @@ export default class ProductPage extends Vue {
     return this.$store.getters.getProduct;
   }
 
+  get token() {
+    return this.$store.getters.getJwt;
+  }
+
+  get profile() {
+    return this.$store.getters.getProfile;
+  }
+
   mounted() {
-    this.fetchProduct();
+    this.fetchAll();
+  }
+
+  async fetchAll() {
+    this.loading = true;
+
+    await this.fetchProduct();
+    if (this.token) await this.fetchProfile();
+
+    this.loading = false;
   }
 
   async fetchProduct() {
     try {
-      this.loading = true;
-
       await this.$store.dispatch('fetchProduct', {
         id: this.$route.params.id
       });
     } catch (error) {
       console.error(error);
     }
+  }
 
-    this.loading = false;
+  async fetchProfile() {
+    try {
+      await this.$store.dispatch('fetchProfile');
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 </script>

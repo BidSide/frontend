@@ -3,11 +3,24 @@ export interface Product {
   name: string;
   description: string;
   starterPrice: number;
-  currentPrice: number;
+  currentPrice?: {
+    amount: number;
+    user: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    createdAt: string;
+  } | null;
   buyoutPrice: number;
+  sold: boolean;
 
   category?: Category | null;
-  profile?: string;
+  profile?: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
 }
 
 export interface Category {

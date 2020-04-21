@@ -19,7 +19,7 @@ const profile: Module<
   },
 
   mutations: {
-    setProfile(state, { profile }: { profile: Profile }) {
+    setProfile(state, { profile }: { profile: Profile | null }) {
       state.profile = profile;
     },
 
