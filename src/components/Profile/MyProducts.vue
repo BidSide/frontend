@@ -27,9 +27,26 @@
           </v-icon>
         </v-btn>
 
-        <v-btn icon :disabled="product.sold" class="ml-2">
+        <v-btn
+          v-if="deleteConfirmId !== product._id"
+          @click="deleteConfirmId = product._id"
+          icon
+          :disabled="product.sold"
+          class="ml-2"
+        >
           <v-icon color="error">
             {{ 'mdi-delete-forever' }}
+          </v-icon>
+        </v-btn>
+        <v-btn
+          v-else
+          @click="handleDeleteProduct(product._id)"
+          :loading="deletingItemId === product._id"
+          icon
+          class="ml-2"
+        >
+          <v-icon color="error">
+            {{ 'mdi-check' }}
           </v-icon>
         </v-btn>
       </v-list-item-action>
@@ -51,5 +68,20 @@ export default class MyProducts extends Vue {
     required: true
   })
   readonly products!: Product[];
+
+  deleteConfirmId = '';
+  deletingItemId = '';
+
+  async handleDeleteProduct(id: string) {
+    try {
+      this.deletingItemId = id;
+
+      await this.$store.dispatch('deleteProduct', { id });
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.deletingItemId = '';
+  }
 }
 </script>

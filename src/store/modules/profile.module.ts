@@ -33,6 +33,10 @@ const profile: Module<
 
     addProduct(state, { product }: { product: Product }) {
       state.myProducts.push(product);
+    },
+
+    deleteProduct(state, { id }: { id: string }) {
+      state.myProducts = state.myProducts.filter(prod => prod._id !== id);
     }
   },
 
@@ -86,6 +90,14 @@ const profile: Module<
           newBalance: response.data.wallet
         });
       }
+    },
+
+    async deleteProduct({ commit }, { id }: { id: string }) {
+      await axios.delete(`${baseURL}/product/${id}`);
+
+      commit('deleteProduct', {
+        id
+      });
     }
   }
 };
