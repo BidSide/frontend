@@ -16,7 +16,7 @@
 
             <v-col cols="12" sm="6" md="4">
               <p class="title text-end mb-0">
-                {{ 'Balance: ' + profile.wallet }}
+                {{ 'Balance: ' + profile.info.wallet }}
                 <v-icon small color="primary">
                   {{ 'mdi-currency-usd-circle' }}
                 </v-icon>

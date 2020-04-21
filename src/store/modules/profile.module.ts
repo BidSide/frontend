@@ -22,7 +22,7 @@ const profile: Module<
     },
 
     updateBalance(state, { newBalance }: { newBalance: number }) {
-      if (state.profile) state.profile.wallet = newBalance;
+      if (state.profile) state.profile.info.wallet = newBalance;
     }
   },
 
@@ -37,8 +37,13 @@ const profile: Module<
       const response = await axios.get(`${baseURL}/profile`);
 
       if (response.data) {
+        const { profile, ...rest } = response.data;
+
         commit('setProfile', {
-          profile: response.data
+          profile: {
+            info: profile,
+            ...rest
+          }
         });
       }
     },
