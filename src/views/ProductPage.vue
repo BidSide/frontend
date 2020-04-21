@@ -82,11 +82,13 @@
 
               <v-card-actions class="d-flex justify-end flex-sm-column">
                 <v-btn
+                  @click="bidDialogOpen = true"
                   color="secondary"
                   width="100"
                   class="d-flex justify-space-between"
                   :disabled="
-                    profile && product.profile._id === profile.info.user
+                    (profile && product.profile._id === profile.info.user) ||
+                      product.sold
                   "
                 >
                   {{ 'Bid' }}
@@ -97,11 +99,14 @@
                 </v-btn>
 
                 <v-btn
+                  @click="handleBuyoutAction"
+                  :loading="buyoutLoading"
                   color="primary"
                   width="100"
                   class="d-flex justify-space-between ml-4 ml-sm-0 mt-sm-4"
                   :disabled="
-                    profile && product.profile._id === profile.info.user
+                    (profile && product.profile._id === profile.info.user) ||
+                      product.sold
                   "
                 >
                   {{ 'Buyout' }}
@@ -116,12 +121,45 @@
         </v-sheet>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="bidDialogOpen" max-width="300">
+      <v-card>
+        <v-card-title>
+          {{ 'Bid amount' }}
+        </v-card-title>
+
+        <v-card-text class="pb-0">
+          <v-text-field
+            type="number"
+            label="Bid amount"
+            v-model="bidValue"
+            outlined
+          />
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            @click="handleBidAction"
+            :loading="bidLoading"
+            color="secondary"
+          >
+            {{ 'Make bid' }}
+            <v-icon small class="ml-2">
+              {{ 'mdi-currency-usd-circle' }}
+            </v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+
+import { Product } from '@/types';
 
 @Component({
   metaInfo: {
@@ -131,11 +169,18 @@ import Component from 'vue-class-component';
 export default class ProductPage extends Vue {
   loading = false;
 
-  get product() {
+  bidDialogOpen = false;
+  bidLoading = false;
+  buyoutLoading = false;
+
+  bidValue = 0;
+
+  get product(): Product | null {
     return this.$store.getters.getProduct;
   }
   get sellerName() {
     if (
+      this.product &&
       this.product.profile &&
       this.product.profile.firstName &&
       this.product.profile.lastName
@@ -183,6 +228,47 @@ export default class ProductPage extends Vue {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async handleBidAction() {
+    if (!this.token) {
+      this.$router.push('/login');
+      return;
+    }
+
+    try {
+      this.bidLoading = true;
+
+      this.$store.dispatch('bidProduct', {
+        id: this.product && this.product._id,
+        amount: this.bidValue
+      });
+
+      this.bidDialogOpen = false;
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.bidLoading = false;
+  }
+
+  async handleBuyoutAction() {
+    if (!this.token) {
+      this.$router.push('/login');
+      return;
+    }
+
+    try {
+      this.buyoutLoading = true;
+
+      await this.$store.dispatch('buyoutProduct', {
+        id: this.product && this.product._id
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.buyoutLoading = false;
   }
 }
 </script>

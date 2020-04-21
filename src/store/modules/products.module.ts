@@ -128,6 +128,36 @@ const products: Module<
           }
         });
       }
+    },
+
+    async bidProduct(
+      { commit, state },
+      { id, amount }: { id: string; amount: number }
+    ) {
+      const response = await axios.post(`${baseURL}/product/${id}/bid`, {
+        amount: Number(amount)
+      });
+
+      if (response.data) {
+        commit('setProduct', {
+          product: {
+            ...state.product,
+            currentPrice: response.data.currentPrice,
+            sold: response.data.sold
+          }
+        });
+      }
+    },
+
+    async buyoutProduct({ commit, state }, { id }: { id: string }) {
+      await axios.post(`${baseURL}/product/${id}/buyout`);
+
+      commit('setProduct', {
+        product: {
+          ...state.product,
+          sold: true
+        }
+      });
     }
   }
 };
