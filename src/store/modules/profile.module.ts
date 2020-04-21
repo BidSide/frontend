@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 import axios from '@/lib/axios';
 
-import { Profile } from '@/types';
+import { Profile, Product } from '@/types';
 
 // config
 import { baseURL } from '@/config';
@@ -9,16 +9,22 @@ import { baseURL } from '@/config';
 const profile: Module<
   {
     profile: Profile | null;
+    myProducts: Product[];
   },
   {}
 > = {
   state: {
-    profile: null
+    profile: null,
+    myProducts: []
   },
 
   mutations: {
     setProfile(state, { profile }: { profile: Profile }) {
       state.profile = profile;
+    },
+
+    setMyProducts(state, { products }: { products: Product[] }) {
+      state.myProducts = products;
     },
 
     updateBalance(state, { newBalance }: { newBalance: number }) {
@@ -29,6 +35,10 @@ const profile: Module<
   getters: {
     getProfile(state) {
       return state.profile;
+    },
+
+    getMyProducts(state) {
+      return state.myProducts;
     }
   },
 
@@ -44,6 +54,20 @@ const profile: Module<
             info: profile,
             ...rest
           }
+        });
+      }
+    },
+
+    async fetchMyProducts({ commit, state }) {
+      const response = await axios.get(`${baseURL}/product`, {
+        params: {
+          profile: state.profile && state.profile.info._id
+        }
+      });
+
+      if (Array.isArray(response.data)) {
+        commit('setMyProducts', {
+          products: response.data
         });
       }
     },

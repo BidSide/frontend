@@ -95,6 +95,10 @@ export default class Profile extends Vue {
     return this.$store.getters.getProfile;
   }
 
+  get myProducts() {
+    return this.$store.getters.getMyProducts;
+  }
+
   get topupValueErrors() {
     const errors: string[] = [];
     if (this.$v.topupValue && this.$v.topupValue.$dirty) {
@@ -107,7 +111,9 @@ export default class Profile extends Vue {
   }
 
   mounted() {
-    this.fetchProfile();
+    this.fetchProfile().then(() => {
+      this.fetchMyProducts();
+    });
   }
 
   async fetchProfile() {
@@ -120,6 +126,14 @@ export default class Profile extends Vue {
     }
 
     this.loading = false;
+  }
+
+  async fetchMyProducts() {
+    try {
+      await this.$store.dispatch('fetchMyProducts');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async handleTopup() {
