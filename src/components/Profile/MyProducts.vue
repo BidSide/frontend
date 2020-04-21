@@ -1,6 +1,10 @@
 <template>
   <v-list :dense="$vuetify.breakpoint.xsOnly">
-    <v-list-item v-for="(product, index) in products" :key="index">
+    <v-list-item
+      v-for="(product, index) in products"
+      :key="index"
+      @click="$router.push(`/product/${product._id}`)"
+    >
       <v-list-item-content>
         <v-list-item-title>
           {{ `${product.name} ${product.sold ? '(SOLD)' : ''}` }}
@@ -21,15 +25,16 @@
       </v-list-item-content>
 
       <v-list-item-action class="d-flex flex-row">
-        <v-btn icon :disabled="product.sold">
+        <!-- TODO: edit -->
+        <!-- <v-btn icon :disabled="Boolean(product.sold || product.currentPrice)">
           <v-icon color="primary">
             {{ 'mdi-pencil' }}
           </v-icon>
-        </v-btn>
+        </v-btn> -->
 
         <v-btn
           v-if="deleteConfirmId !== product._id"
-          @click="deleteConfirmId = product._id"
+          @click.stop="deleteConfirmId = product._id"
           icon
           :disabled="product.sold"
           class="ml-2"
@@ -40,7 +45,7 @@
         </v-btn>
         <v-btn
           v-else
-          @click="handleDeleteProduct(product._id)"
+          @click.stop="handleDeleteProduct(product._id)"
           :loading="deletingItemId === product._id"
           icon
           class="ml-2"
