@@ -1,0 +1,92 @@
+<template>
+  <v-list :dense="$vuetify.breakpoint.xsOnly">
+    <v-list-item
+      v-for="(product, index) in products"
+      :key="index"
+      @click="$router.push(`/product/${product._id}`)"
+    >
+      <v-list-item-content>
+        <v-list-item-title>
+          {{ `${product.name} ${product.sold ? '(SOLD)' : ''}` }}
+        </v-list-item-title>
+
+        <v-list-item-subtitle class="caption">
+          <span v-if="product.currentPrice > 0" class="font-weight-bold">
+            {{ 'Highest bid: ' }}
+            {{ product.currentPrice }}
+            <v-icon small color="primary">
+              {{ 'mdi-currency-usd-circle' }}
+            </v-icon>
+          </span>
+          <span v-else>
+            {{ 'No bids yet.' }}
+          </span>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-action class="d-flex flex-row">
+        <!-- TODO: edit -->
+        <!-- <v-btn icon :disabled="Boolean(product.sold || product.currentPrice)">
+          <v-icon color="primary">
+            {{ 'mdi-pencil' }}
+          </v-icon>
+        </v-btn> -->
+
+        <v-btn
+          v-if="deleteConfirmId !== product._id"
+          @click.stop="deleteConfirmId = product._id"
+          icon
+          :disabled="product.sold"
+          class="ml-2"
+        >
+          <v-icon color="error">
+            {{ 'mdi-delete-forever' }}
+          </v-icon>
+        </v-btn>
+        <v-btn
+          v-else
+          @click.stop="handleDeleteProduct(product._id)"
+          :loading="deletingItemId === product._id"
+          icon
+          class="ml-2"
+        >
+          <v-icon color="error">
+            {{ 'mdi-check' }}
+          </v-icon>
+        </v-btn>
+      </v-list-item-action>
+    </v-list-item>
+  </v-list>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
+
+import { Product } from '@/types';
+
+@Component
+export default class MyProducts extends Vue {
+  @Prop({
+    type: Array,
+    required: true
+  })
+  readonly products!: Product[];
+
+  deleteConfirmId = '';
+  deletingItemId = '';
+
+  async handleDeleteProduct(id: string) {
+    try {
+      this.deletingItemId = id;
+
+      await this.$store.dispatch('deleteProduct', { id });
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.deletingItemId = '';
+  }
+}
+</script>

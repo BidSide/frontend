@@ -35,6 +35,10 @@ const products: Module<
 
     addProduct(state, { product }: { product: Product }) {
       state.products.push(product);
+    },
+
+    deleteProduct(state, { id }: { id: string }) {
+      state.products = state.products.filter(prod => prod._id !== id);
     }
   },
 

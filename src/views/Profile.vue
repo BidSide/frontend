@@ -16,7 +16,7 @@
 
             <v-col cols="12" sm="6" md="4">
               <p class="title text-end mb-0">
-                {{ 'Balance: ' + profile.wallet }}
+                {{ 'Balance: ' + profile.info.wallet }}
                 <v-icon small color="primary">
                   {{ 'mdi-currency-usd-circle' }}
                 </v-icon>
@@ -32,6 +32,27 @@
                 {{ 'mdi-wallet-plus' }}
               </v-icon>
             </v-btn>
+          </div>
+
+          <v-divider class="mt-8 mb-8" />
+
+          <div>
+            <p class="title mb-0">
+              {{ 'My products' }}
+            </p>
+
+            <div v-if="myProductsLoading" class="d-flex justify-center">
+              <v-progress-circular indeterminate color="primary" />
+            </div>
+
+            <MyProducts
+              v-else-if="myProducts.length > 0"
+              :products="myProducts"
+            />
+
+            <p v-else class="display-1 text-center">
+              {{ `You haven't posted any products yet.` }}
+            </p>
           </div>
         </v-sheet>
       </v-col>
@@ -75,9 +96,16 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { required, minValue, integer } from 'vuelidate/lib/validators';
 
+// Components
+import MyProducts from '@/components/Profile/MyProducts.vue';
+
 @Component({
   metaInfo: {
     title: 'Profile'
+  },
+
+  components: {
+    MyProducts
   },
 
   validations: {
@@ -86,6 +114,7 @@ import { required, minValue, integer } from 'vuelidate/lib/validators';
 })
 export default class Profile extends Vue {
   loading = false;
+  myProductsLoading = false;
   topupLoading = false;
   topupDialogOpen = false;
 
@@ -93,6 +122,10 @@ export default class Profile extends Vue {
 
   get profile() {
     return this.$store.getters.getProfile;
+  }
+
+  get myProducts() {
+    return this.$store.getters.getMyProducts;
   }
 
   get topupValueErrors() {
@@ -107,7 +140,9 @@ export default class Profile extends Vue {
   }
 
   mounted() {
-    this.fetchProfile();
+    this.fetchProfile().then(() => {
+      this.fetchMyProducts();
+    });
   }
 
   async fetchProfile() {
@@ -120,6 +155,18 @@ export default class Profile extends Vue {
     }
 
     this.loading = false;
+  }
+
+  async fetchMyProducts() {
+    try {
+      this.myProductsLoading = true;
+
+      await this.$store.dispatch('fetchMyProducts');
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.myProductsLoading = false;
   }
 
   async handleTopup() {
