@@ -93,7 +93,7 @@ const products: Module<
     },
 
     async addProduct(
-      { commit },
+      { commit, state },
       {
         name,
         description,
@@ -116,10 +116,12 @@ const products: Module<
         category
       });
 
-      // TODO: get category
       if (response.data) {
         commit('addProduct', {
-          product: response.data
+          product: {
+            ...response.data,
+            category: state.categories.find(cat => cat._id === category)
+          }
         });
       }
     }
