@@ -11,9 +11,9 @@
         </v-list-item-title>
 
         <v-list-item-subtitle class="caption">
-          <span v-if="product.currentPrice > 0" class="font-weight-bold">
+          <span v-if="product.currentPrice" class="font-weight-bold">
             {{ 'Highest bid: ' }}
-            {{ product.currentPrice }}
+            {{ product.currentPrice.amount }}
             <v-icon small color="primary">
               {{ 'mdi-currency-usd-circle' }}
             </v-icon>

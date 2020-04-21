@@ -41,10 +41,10 @@
             </span>
 
             <span
-              v-if="product.currentPrice > 0"
+              v-if="product.currentPrice"
               class="font-weight-bold subtitle-1"
             >
-              {{ product.currentPrice }}
+              {{ product.currentPrice.amount }}
               <v-icon small color="primary">
                 {{ 'mdi-currency-usd-circle' }}
               </v-icon>
