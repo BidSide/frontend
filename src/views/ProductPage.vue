@@ -25,6 +25,11 @@
             </v-card-subtitle>
 
             <v-card-text>
+              <p class="caption font-italic">
+                <!-- TODO: link to seller's public profile -->
+                {{ `${sellerName}'s product` }}
+              </p>
+
               {{ product.description }}
             </v-card-text>
 
@@ -128,6 +133,17 @@ export default class ProductPage extends Vue {
 
   get product() {
     return this.$store.getters.getProduct;
+  }
+  get sellerName() {
+    if (
+      this.product.profile &&
+      this.product.profile.firstName &&
+      this.product.profile.lastName
+    ) {
+      return `${this.product.profile.firstName} ${this.product.profile.lastName}`;
+    } else {
+      return 'Anonymous';
+    }
   }
 
   get token() {
