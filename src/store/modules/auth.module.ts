@@ -37,6 +37,9 @@ const auth: Module<
       commit('setJwt', {
         jwt: null
       });
+      commit('setProfile', {
+        profile: null
+      });
     },
 
     async login(

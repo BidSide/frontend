@@ -71,7 +71,7 @@ const products: Module<
 
       if (Array.isArray(response.data)) {
         commit('setProducts', {
-          products: response.data
+          products: response.data.filter(product => !product.sold)
         });
       }
     },

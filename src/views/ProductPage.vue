@@ -25,6 +25,11 @@
             </v-card-subtitle>
 
             <v-card-text>
+              <p class="caption font-italic">
+                <!-- TODO: link to seller's public profile -->
+                {{ `${sellerName}'s product` }}
+              </p>
+
               {{ product.description }}
             </v-card-text>
 
@@ -49,10 +54,10 @@
                     {{ 'Highest bid:' }}
                   </span>
                   <span
-                    v-if="product.currentPrie > 0"
+                    v-if="product.currentPrice"
                     class="font-weight-bold subtitle-1"
                   >
-                    {{ product.currentPrice }}
+                    {{ product.currentPrice.amount }}
                     <v-icon small color="secondary">
                       {{ 'mdi-currency-usd-circle' }}
                     </v-icon>
@@ -80,6 +85,9 @@
                   color="secondary"
                   width="100"
                   class="d-flex justify-space-between"
+                  :disabled="
+                    profile && product.profile._id === profile.info.user
+                  "
                 >
                   {{ 'Bid' }}
 
@@ -89,9 +97,12 @@
                 </v-btn>
 
                 <v-btn
-                  color="primary ml-4 ml-sm-0 mt-sm-4"
+                  color="primary"
                   width="100"
-                  class="d-flex justify-space-between"
+                  class="d-flex justify-space-between ml-4 ml-sm-0 mt-sm-4"
+                  :disabled="
+                    profile && product.profile._id === profile.info.user
+                  "
                 >
                   {{ 'Buyout' }}
 
@@ -123,23 +134,55 @@ export default class ProductPage extends Vue {
   get product() {
     return this.$store.getters.getProduct;
   }
+  get sellerName() {
+    if (
+      this.product.profile &&
+      this.product.profile.firstName &&
+      this.product.profile.lastName
+    ) {
+      return `${this.product.profile.firstName} ${this.product.profile.lastName}`;
+    } else {
+      return 'Anonymous';
+    }
+  }
+
+  get token() {
+    return this.$store.getters.getJwt;
+  }
+
+  get profile() {
+    return this.$store.getters.getProfile;
+  }
 
   mounted() {
-    this.fetchProduct();
+    this.fetchAll();
+  }
+
+  async fetchAll() {
+    this.loading = true;
+
+    await this.fetchProduct();
+    if (this.token) await this.fetchProfile();
+
+    this.loading = false;
   }
 
   async fetchProduct() {
     try {
-      this.loading = true;
-
       await this.$store.dispatch('fetchProduct', {
         id: this.$route.params.id
       });
     } catch (error) {
       console.error(error);
     }
+  }
 
-    this.loading = false;
+  async fetchProfile() {
+    try {
+      await this.$store.dispatch('fetchProfile');
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 </script>
