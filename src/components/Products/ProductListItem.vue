@@ -24,15 +24,11 @@
         <v-card-text>
           <div class="d-flex flex-column align-end">
             <span class="text-end">
-              {{ 'Highest bid:' }}
+              {{ 'Starter price:' }}
             </span>
 
-            <span class="font-weight-bold subtitle-1">
-              {{
-                product.currentPrice
-                  ? product.currentPrice
-                  : product.starterPrice
-              }}
+            <span class="subtitle-1">
+              {{ product.starterPrice }}
               <v-icon small color="secondary">
                 {{ 'mdi-currency-usd-circle' }}
               </v-icon>
@@ -40,6 +36,25 @@
           </div>
 
           <div class="d-flex flex-column align-end mt-2 mt-sm-4">
+            <span class="text-end">
+              {{ 'Highest bid:' }}
+            </span>
+
+            <span
+              v-if="product.currentPrice > 0"
+              class="font-weight-bold subtitle-1"
+            >
+              {{ product.currentPrice }}
+              <v-icon small color="primary">
+                {{ 'mdi-currency-usd-circle' }}
+              </v-icon>
+            </span>
+            <span v-else class="caption">
+              {{ 'No bids yet.' }}
+            </span>
+          </div>
+
+          <div class="d-flex flex-column align-end mt-2">
             <span class="text-end">
               {{ 'Buyout:' }}
             </span>
