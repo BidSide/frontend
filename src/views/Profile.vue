@@ -73,7 +73,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { required, minValue } from 'vuelidate/lib/validators';
+import { required, minValue, integer } from 'vuelidate/lib/validators';
 
 @Component({
   metaInfo: {
@@ -81,7 +81,7 @@ import { required, minValue } from 'vuelidate/lib/validators';
   },
 
   validations: {
-    topupValue: { required, minValue: minValue(1) }
+    topupValue: { required, minValue: minValue(1), integer }
   }
 })
 export default class Profile extends Vue {

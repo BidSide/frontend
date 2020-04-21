@@ -31,6 +31,10 @@ const products: Module<
 
     setProduct(state, { product }: { product: Product }) {
       state.product = product;
+    },
+
+    addProduct(state, { product }: { product: Product }) {
+      state.products.push(product);
     }
   },
 
@@ -84,6 +88,40 @@ const products: Module<
       if (response.data) {
         commit('setProduct', {
           product: response.data
+        });
+      }
+    },
+
+    async addProduct(
+      { commit, state },
+      {
+        name,
+        description,
+        starterPrice,
+        buyoutPrice,
+        category
+      }: {
+        name: string;
+        description: string;
+        starterPrice: number;
+        buyoutPrice: number;
+        category: string;
+      }
+    ) {
+      const response = await axios.post(`${baseURL}/product`, {
+        name,
+        description,
+        starterPrice: Number(starterPrice),
+        buyoutPrice: Number(buyoutPrice),
+        category
+      });
+
+      if (response.data) {
+        commit('addProduct', {
+          product: {
+            ...response.data,
+            category: state.categories.find(cat => cat._id === category)
+          }
         });
       }
     }

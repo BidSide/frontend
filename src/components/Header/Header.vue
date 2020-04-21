@@ -1,28 +1,44 @@
 <template>
-  <v-app-bar color="primary" dark app>
-    <div class="d-flex align-center">
-      <router-link to="/">
-        <v-img
-          alt="BidSide Logo"
-          class="shrink mr-2"
-          contain
-          src="@/assets/logo.png"
-          transition="scale-transition"
-          width="40"
-        />
-      </router-link>
-
-      <v-toolbar-title class="font-weight-bold">
-        <router-link to="/" class="bidside-link bidside-link-white">
-          BidSide
+  <div>
+    <v-app-bar color="primary" dark app>
+      <div class="d-flex align-center">
+        <router-link to="/">
+          <v-img
+            alt="BidSide Logo"
+            class="shrink mr-2"
+            contain
+            src="@/assets/logo.png"
+            transition="scale-transition"
+            width="40"
+          />
         </router-link>
-      </v-toolbar-title>
-    </div>
 
-    <v-spacer />
+        <v-toolbar-title class="font-weight-bold d-none d-sm-block">
+          <router-link to="/" class="bidside-link bidside-link-white">
+            BidSide
+          </router-link>
+        </v-toolbar-title>
 
-    <HeaderNavigation :routes="routes" @openDrawer="$emit('openDrawer')" />
-  </v-app-bar>
+        <v-btn
+          v-if="token"
+          @click.stop="addProductDialogOpen = true"
+          color="secondary"
+          class="ml-2 ml-sm-6"
+          depressed
+        >
+          {{ 'I want to sell' }}
+        </v-btn>
+      </div>
+
+      <v-spacer />
+
+      <HeaderNavigation :routes="routes" @openDrawer="$emit('openDrawer')" />
+    </v-app-bar>
+
+    <v-dialog v-model="addProductDialogOpen" max-width="600">
+      <AddProductForm :callback="closeAddProductDialog" />
+    </v-dialog>
+  </div>
 </template>
 
 <script lang="ts">
@@ -32,10 +48,12 @@ import { Prop } from 'vue-property-decorator';
 
 // Components
 import HeaderNavigation from './HeaderNavigation.vue';
+import AddProductForm from '@/components/Products/forms/AddProductForm.vue';
 
 @Component({
   components: {
-    HeaderNavigation
+    HeaderNavigation,
+    AddProductForm
   }
 })
 export default class Header extends Vue {
@@ -44,5 +62,15 @@ export default class Header extends Vue {
     required: true
   })
   readonly routes!: [];
+
+  addProductDialogOpen = false;
+
+  get token() {
+    return this.$store.getters.getJwt;
+  }
+
+  closeAddProductDialog() {
+    this.addProductDialogOpen = false;
+  }
 }
 </script>
