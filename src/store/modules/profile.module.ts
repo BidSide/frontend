@@ -29,6 +29,10 @@ const profile: Module<
 
     updateBalance(state, { newBalance }: { newBalance: number }) {
       if (state.profile) state.profile.info.wallet = newBalance;
+    },
+
+    addProduct(state, { product }: { product: Product }) {
+      state.myProducts.push(product);
     }
   },
 

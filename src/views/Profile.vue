@@ -33,6 +33,27 @@
               </v-icon>
             </v-btn>
           </div>
+
+          <v-divider class="mt-8 mb-8" />
+
+          <div>
+            <p class="title mb-0">
+              {{ 'My products' }}
+            </p>
+
+            <div v-if="myProductsLoading" class="d-flex justify-center">
+              <v-progress-circular indeterminate color="primary" />
+            </div>
+
+            <MyProducts
+              v-else-if="myProducts.length > 0"
+              :products="myProducts"
+            />
+
+            <p v-else class="display-1 text-center">
+              {{ `You haven't posted any products yet.` }}
+            </p>
+          </div>
         </v-sheet>
       </v-col>
     </v-row>
@@ -75,9 +96,16 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { required, minValue, integer } from 'vuelidate/lib/validators';
 
+// Components
+import MyProducts from '@/components/Profile/MyProducts.vue';
+
 @Component({
   metaInfo: {
     title: 'Profile'
+  },
+
+  components: {
+    MyProducts
   },
 
   validations: {
@@ -86,6 +114,7 @@ import { required, minValue, integer } from 'vuelidate/lib/validators';
 })
 export default class Profile extends Vue {
   loading = false;
+  myProductsLoading = false;
   topupLoading = false;
   topupDialogOpen = false;
 
@@ -130,10 +159,14 @@ export default class Profile extends Vue {
 
   async fetchMyProducts() {
     try {
+      this.myProductsLoading = true;
+
       await this.$store.dispatch('fetchMyProducts');
     } catch (error) {
       console.error(error);
     }
+
+    this.myProductsLoading = false;
   }
 
   async handleTopup() {
