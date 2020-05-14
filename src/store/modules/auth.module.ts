@@ -14,6 +14,12 @@ const auth: Module<
     jwt: localStorage.getItem('jwt')
   },
 
+  getters: {
+    getJwt(state) {
+      return state.jwt;
+    }
+  },
+
   mutations: {
     setJwt(state, { jwt }: { jwt: string | null }) {
       state.jwt = jwt;
@@ -23,12 +29,6 @@ const auth: Module<
       } else {
         localStorage.removeItem('jwt');
       }
-    }
-  },
-
-  getters: {
-    getJwt(state) {
-      return state.jwt;
     }
   },
 
