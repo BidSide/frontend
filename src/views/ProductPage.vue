@@ -51,7 +51,11 @@
 
                 <div class="d-flex flex-column">
                   <span>
-                    {{ 'Highest bid:' }}
+                    {{
+                      highestBidderName
+                        ? `Highest bid (${highestBidderName}):`
+                        : 'Highest bid:'
+                    }}
                   </span>
                   <span
                     v-if="product.currentPrice"
@@ -81,40 +85,65 @@
               </v-card-text>
 
               <v-card-actions class="d-flex justify-end flex-sm-column">
-                <v-btn
-                  @click="bidDialogOpen = true"
-                  color="secondary"
-                  width="100"
-                  class="d-flex justify-space-between"
-                  :disabled="
-                    (profile && product.profile._id === profile.info.user) ||
-                      product.sold
-                  "
-                >
-                  {{ 'Bid' }}
+                <v-tooltip left>
+                  <template #activator="{ on }">
+                    <span v-on="on">
+                      <v-btn
+                        @click="bidDialogOpen = true"
+                        color="secondary"
+                        width="100"
+                        class="d-flex justify-space-between pr-2 pl-2"
+                        :disabled="
+                          isOwnProduct || isHighestBidder || product.sold
+                        "
+                      >
+                        {{ 'Bid' }}
 
-                  <v-icon small>
-                    {{ 'mdi-currency-usd-circle' }}
-                  </v-icon>
-                </v-btn>
+                        <v-icon small>
+                          {{ 'mdi-currency-usd-circle' }}
+                        </v-icon>
+                      </v-btn>
+                    </span>
+                  </template>
 
-                <v-btn
-                  @click="handleBuyoutAction"
-                  :loading="buyoutLoading"
-                  color="primary"
-                  width="100"
-                  class="d-flex justify-space-between ml-4 ml-sm-0 mt-sm-4"
-                  :disabled="
-                    (profile && product.profile._id === profile.info.user) ||
-                      product.sold
-                  "
-                >
-                  {{ 'Buyout' }}
+                  <span v-if="isHighestBidder">
+                    {{ 'You are the highest bidder!' }}
+                  </span>
+                  <span v-else-if="isOwnProduct">
+                    {{ 'You cannot buy your own product!' }}
+                  </span>
+                  <span v-else>
+                    {{ 'Click to make bid' }}
+                  </span>
+                </v-tooltip>
 
-                  <v-icon small>
-                    {{ 'mdi-currency-usd-circle' }}
-                  </v-icon>
-                </v-btn>
+                <v-tooltip left>
+                  <template #activator="{ on }">
+                    <span v-on="on">
+                      <v-btn
+                        @click="handleBuyoutAction"
+                        :loading="buyoutLoading"
+                        color="primary"
+                        width="100"
+                        class="d-flex justify-space-between pr-2 pl-2 ml-4 ml-sm-0 mt-sm-4"
+                        :disabled="isOwnProduct || product.sold"
+                      >
+                        {{ 'Buyout' }}
+
+                        <v-icon small>
+                          {{ 'mdi-currency-usd-circle' }}
+                        </v-icon>
+                      </v-btn>
+                    </span>
+                  </template>
+
+                  <span v-if="isOwnProduct">
+                    {{ 'You cannot buy your own product!' }}
+                  </span>
+                  <span v-else>
+                    {{ 'Click to buy' }}
+                  </span>
+                </v-tooltip>
               </v-card-actions>
             </div>
           </v-card>
@@ -158,8 +187,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import { Watch } from 'vue-property-decorator';
 
-import { Product } from '@/types';
+import { Product, Profile } from '@/types';
 
 @Component({
   metaInfo: {
@@ -178,7 +208,14 @@ export default class ProductPage extends Vue {
   get product(): Product | null {
     return this.$store.getters.getProduct;
   }
-  get sellerName() {
+  get token(): string | null {
+    return this.$store.getters.getJwt;
+  }
+  get profile(): Profile | null {
+    return this.$store.getters.getProfile;
+  }
+
+  get sellerName(): string {
     if (
       this.product &&
       this.product.profile &&
@@ -190,13 +227,46 @@ export default class ProductPage extends Vue {
       return 'Anonymous';
     }
   }
-
-  get token() {
-    return this.$store.getters.getJwt;
+  get highestBidderName(): string | undefined {
+    if (
+      this.product &&
+      this.product.currentPrice &&
+      this.product.currentPrice.user &&
+      this.product.currentPrice.user.firstName &&
+      this.product.currentPrice.user.lastName
+    ) {
+      return `${this.product.currentPrice.user.firstName} ${this.product.currentPrice.user.lastName}`;
+    } else {
+      return undefined;
+    }
   }
 
-  get profile() {
-    return this.$store.getters.getProfile;
+  get isOwnProduct(): boolean {
+    if (
+      this.profile &&
+      this.profile.info &&
+      this.product &&
+      this.product.profile &&
+      this.profile.info.user === this.product.profile._id
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  get isHighestBidder(): boolean {
+    if (
+      this.profile &&
+      this.profile.info &&
+      this.product &&
+      this.product.currentPrice &&
+      this.product.currentPrice.user &&
+      this.profile.info.user === this.product.currentPrice.user._id
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   mounted() {
