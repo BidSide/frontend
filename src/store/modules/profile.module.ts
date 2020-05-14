@@ -18,6 +18,16 @@ const profile: Module<
     myProducts: []
   },
 
+  getters: {
+    getProfile(state) {
+      return state.profile;
+    },
+
+    getMyProducts(state) {
+      return state.myProducts;
+    }
+  },
+
   mutations: {
     setProfile(state, { profile }: { profile: Profile | null }) {
       state.profile = profile;
@@ -37,16 +47,6 @@ const profile: Module<
 
     deleteProduct(state, { id }: { id: string }) {
       state.myProducts = state.myProducts.filter(prod => prod._id !== id);
-    }
-  },
-
-  getters: {
-    getProfile(state) {
-      return state.profile;
-    },
-
-    getMyProducts(state) {
-      return state.myProducts;
     }
   },
 

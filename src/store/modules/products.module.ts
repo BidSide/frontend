@@ -20,6 +20,20 @@ const products: Module<
     product: null
   },
 
+  getters: {
+    getProducts(state) {
+      return state.products;
+    },
+
+    getCategories(state) {
+      return state.categories;
+    },
+
+    getProduct(state) {
+      return state.product;
+    }
+  },
+
   mutations: {
     setProducts(state, { products }: { products: Product[] }) {
       state.products = products;
@@ -39,20 +53,6 @@ const products: Module<
 
     deleteProduct(state, { id }: { id: string }) {
       state.products = state.products.filter(prod => prod._id !== id);
-    }
-  },
-
-  getters: {
-    getProducts(state) {
-      return state.products;
-    },
-
-    getCategories(state) {
-      return state.categories;
-    },
-
-    getProduct(state) {
-      return state.product;
     }
   },
 
