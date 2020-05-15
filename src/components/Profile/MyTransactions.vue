@@ -66,10 +66,6 @@ export default class MyTransactions extends Vue {
   })
   readonly transactions!: TransactionLog[];
 
-  mounted() {
-    console.log(this.transactions);
-  }
-
   get sortedTransactions(): TransactionLog[] {
     return this.transactions.sort((a, b) => {
       if (a.createdAt < b.createdAt) {
