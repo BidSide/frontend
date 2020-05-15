@@ -36,11 +36,17 @@
 
           <v-divider class="mt-8 mb-8" />
 
-          <div>
-            <p class="title mb-0">
+          <v-tabs v-model="tabValue" class="mb-4" grow>
+            <v-tab>
               {{ 'My products' }}
-            </p>
+            </v-tab>
 
+            <v-tab>
+              {{ 'Transaction history' }}
+            </v-tab>
+          </v-tabs>
+
+          <div v-if="tabValue === 0">
             <div v-if="myProductsLoading" class="d-flex justify-center">
               <v-progress-circular indeterminate color="primary" />
             </div>
@@ -55,11 +61,7 @@
             </p>
           </div>
 
-          <div>
-            <p class="title mb-0">
-              {{ 'My transactions' }}
-            </p>
-
+          <div v-else-if="tabValue === 1">
             <MyTransactions
               v-if="myTransactions.length > 0"
               :transactions="myTransactions"
@@ -134,6 +136,7 @@ export default class Profile extends Vue {
   myProductsLoading = false;
   topupLoading = false;
   topupDialogOpen = false;
+  tabValue = 0;
 
   topupValue = 0;
 
