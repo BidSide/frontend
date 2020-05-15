@@ -122,10 +122,9 @@ export default class EditProductForm extends Vue {
           description: this.description,
           starterPrice: this.product.starterPrice,
           buyoutPrice: this.product.buyoutPrice,
-          category:
-            this.product.category && this.product.category.name
-              ? this.product.category.name
-              : undefined
+          category: this.product.category
+            ? this.product.category.name
+            : undefined
         });
       } else {
         return;

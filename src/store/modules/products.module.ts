@@ -131,7 +131,7 @@ const products: Module<
     },
 
     async editProduct(
-      _,
+      { state, dispatch },
       {
         id,
         name,
@@ -148,12 +148,15 @@ const products: Module<
         category: string;
       }
     ) {
+      await dispatch('fetchCategories');
+      const categoryObj = state.categories.find(cat => cat.name === category);
+
       await axios.put(`${baseURL}/product/${id}`, {
         name,
         description,
         starterPrice: Number(starterPrice),
         buyoutPrice: Number(buyoutPrice),
-        category
+        category: categoryObj ? categoryObj._id : undefined
       });
     },
 
