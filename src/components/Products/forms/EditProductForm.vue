@@ -115,10 +115,21 @@ export default class EditProductForm extends Vue {
     try {
       this.isSubmitting = true;
 
-      await this.$store.dispatch('editProduct', {
-        name: this.name,
-        description: this.description
-      });
+      if (this.product) {
+        await this.$store.dispatch('editProduct', {
+          id: this.product._id,
+          name: this.name,
+          description: this.description,
+          starterPrice: this.product.starterPrice,
+          buyoutPrice: this.product.buyoutPrice,
+          category:
+            this.product.category && this.product.category.name
+              ? this.product.category.name
+              : undefined
+        });
+      } else {
+        return;
+      }
 
       this.name = '';
       this.description = '';

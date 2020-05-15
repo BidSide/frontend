@@ -132,11 +132,28 @@ const products: Module<
 
     async editProduct(
       _,
-      { name, description }: { name: string; description: string }
-    ) {
-      await axios.put(`${baseURL}/product`, {
+      {
+        id,
         name,
-        description
+        description,
+        starterPrice,
+        buyoutPrice,
+        category
+      }: {
+        id: string;
+        name: string;
+        description: string;
+        starterPrice: number;
+        buyoutPrice: number;
+        category: string;
+      }
+    ) {
+      await axios.put(`${baseURL}/product/${id}`, {
+        name,
+        description,
+        starterPrice: Number(starterPrice),
+        buyoutPrice: Number(buyoutPrice),
+        category
       });
     },
 
