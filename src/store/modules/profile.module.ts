@@ -25,6 +25,14 @@ const profile: Module<
 
     getMyProducts(state) {
       return state.myProducts;
+    },
+
+    getMyTransactions(state) {
+      if (state.profile) {
+        return state.profile.transactionLogs;
+      } else {
+        return [];
+      }
     }
   },
 

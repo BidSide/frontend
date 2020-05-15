@@ -36,11 +36,17 @@
 
           <v-divider class="mt-8 mb-8" />
 
-          <div>
-            <p class="title mb-0">
+          <v-tabs v-model="tabValue" class="mb-4" grow>
+            <v-tab>
               {{ 'My products' }}
-            </p>
+            </v-tab>
 
+            <v-tab>
+              {{ 'Transaction history' }}
+            </v-tab>
+          </v-tabs>
+
+          <div v-if="tabValue === 0">
             <div v-if="myProductsLoading" class="d-flex justify-center">
               <v-progress-circular indeterminate color="primary" />
             </div>
@@ -52,6 +58,17 @@
 
             <p v-else class="display-1 text-center">
               {{ `You haven't posted any products yet.` }}
+            </p>
+          </div>
+
+          <div v-else-if="tabValue === 1">
+            <MyTransactions
+              v-if="myTransactions.length > 0"
+              :transactions="myTransactions"
+            />
+
+            <p v-else class="display-1 text-center">
+              {{ 'Your transaction history is empty.' }}
             </p>
           </div>
         </v-sheet>
@@ -98,6 +115,7 @@ import { required, minValue, integer } from 'vuelidate/lib/validators';
 
 // Components
 import MyProducts from '@/components/Profile/MyProducts.vue';
+import MyTransactions from '@/components/Profile/MyTransactions.vue';
 
 @Component({
   metaInfo: {
@@ -105,7 +123,8 @@ import MyProducts from '@/components/Profile/MyProducts.vue';
   },
 
   components: {
-    MyProducts
+    MyProducts,
+    MyTransactions
   },
 
   validations: {
@@ -117,6 +136,7 @@ export default class Profile extends Vue {
   myProductsLoading = false;
   topupLoading = false;
   topupDialogOpen = false;
+  tabValue = 0;
 
   topupValue = 0;
 
@@ -126,6 +146,10 @@ export default class Profile extends Vue {
 
   get myProducts() {
     return this.$store.getters.getMyProducts;
+  }
+
+  get myTransactions() {
+    return this.$store.getters.getMyTransactions;
   }
 
   get topupValueErrors() {
