@@ -54,6 +54,21 @@
               {{ `You haven't posted any products yet.` }}
             </p>
           </div>
+
+          <div>
+            <p class="title mb-0">
+              {{ 'My transactions' }}
+            </p>
+
+            <MyTransactions
+              v-if="myTransactions.length > 0"
+              :transactions="myTransactions"
+            />
+
+            <p v-else class="display-1 text-center">
+              {{ 'Your transaction history is empty.' }}
+            </p>
+          </div>
         </v-sheet>
       </v-col>
     </v-row>
@@ -98,6 +113,7 @@ import { required, minValue, integer } from 'vuelidate/lib/validators';
 
 // Components
 import MyProducts from '@/components/Profile/MyProducts.vue';
+import MyTransactions from '@/components/Profile/MyTransactions.vue';
 
 @Component({
   metaInfo: {
@@ -105,7 +121,8 @@ import MyProducts from '@/components/Profile/MyProducts.vue';
   },
 
   components: {
-    MyProducts
+    MyProducts,
+    MyTransactions
   },
 
   validations: {
@@ -128,6 +145,10 @@ export default class Profile extends Vue {
     return this.$store.getters.getMyProducts;
   }
 
+  get myTransactions() {
+    return this.$store.getters.getMyTransactions;
+  }
+
   get topupValueErrors() {
     const errors: string[] = [];
     if (this.$v.topupValue && this.$v.topupValue.$dirty) {
@@ -141,6 +162,7 @@ export default class Profile extends Vue {
 
   mounted() {
     this.fetchProfile().then(() => {
+      console.log(this.profile);
       this.fetchMyProducts();
     });
   }
