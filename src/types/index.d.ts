@@ -1,5 +1,9 @@
 export { Product, Category } from './response/products';
-export { Profile, TransactionLog } from './response/profile';
+export {
+  Profile,
+  PublicProfileInterface,
+  TransactionLog
+} from './response/profile';
 
 export interface Route {
   label: string;
