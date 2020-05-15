@@ -10,6 +10,11 @@ export interface Profile {
   transactionLogs: TransactionLog[];
 }
 
+export interface PublicProfileInterface {
+  firstName: string;
+  lastName: string;
+}
+
 export interface TransactionLog {
   _id: string;
   amount: number;
