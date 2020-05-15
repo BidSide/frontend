@@ -130,6 +130,16 @@ const products: Module<
       }
     },
 
+    async editProduct(
+      _,
+      { name, description }: { name: string; description: string }
+    ) {
+      await axios.put(`${baseURL}/product`, {
+        name,
+        description
+      });
+    },
+
     async bidProduct(
       { commit, state },
       { id, amount }: { id: string; amount: number }

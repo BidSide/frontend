@@ -115,7 +115,14 @@ export default class EditProductForm extends Vue {
     try {
       this.isSubmitting = true;
 
-      console.log('Submitting...');
+      await this.$store.dispatch('editProduct', {
+        name: this.name,
+        description: this.description
+      });
+
+      this.name = '';
+      this.description = '';
+      this.$v.$reset();
     } catch (error) {
       console.error(error);
     }
