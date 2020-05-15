@@ -43,6 +43,8 @@ import { TransactionLog } from '@/types';
         case 'WALLET_TOPUP':
           return 'Top-up balance';
         case 'BUYOUT':
+          return 'Sold product';
+        case 'BUYOUT_LOCKDOWN':
           return 'Buying a product';
         case 'BID_LOCKDOWN':
           return 'Making bid';
@@ -66,10 +68,6 @@ export default class MyTransactions extends Vue {
   })
   readonly transactions!: TransactionLog[];
 
-  mounted() {
-    console.log(this.transactions);
-  }
-
   get sortedTransactions(): TransactionLog[] {
     return this.transactions.sort((a, b) => {
       if (a.createdAt < b.createdAt) {
@@ -87,6 +85,8 @@ export default class MyTransactions extends Vue {
       case 'WALLET_TOPUP':
         return true;
       case 'BUYOUT':
+        return true;
+      case 'BUYOUT_LOCKDOWN':
         return false;
       case 'BID_LOCKDOWN':
         return false;

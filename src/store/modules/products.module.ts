@@ -130,6 +130,36 @@ const products: Module<
       }
     },
 
+    async editProduct(
+      { state, dispatch },
+      {
+        id,
+        name,
+        description,
+        starterPrice,
+        buyoutPrice,
+        category
+      }: {
+        id: string;
+        name: string;
+        description: string;
+        starterPrice: number;
+        buyoutPrice: number;
+        category: string;
+      }
+    ) {
+      await dispatch('fetchCategories');
+      const categoryObj = state.categories.find(cat => cat.name === category);
+
+      await axios.put(`${baseURL}/product/${id}`, {
+        name,
+        description,
+        starterPrice: Number(starterPrice),
+        buyoutPrice: Number(buyoutPrice),
+        category: categoryObj ? categoryObj._id : undefined
+      });
+    },
+
     async bidProduct(
       { commit, state },
       { id, amount }: { id: string; amount: number }
