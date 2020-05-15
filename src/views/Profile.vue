@@ -165,7 +165,6 @@ export default class Profile extends Vue {
 
   mounted() {
     this.fetchProfile().then(() => {
-      console.log(this.profile);
       this.fetchMyProducts();
     });
   }
