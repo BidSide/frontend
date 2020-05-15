@@ -10,6 +10,7 @@ import Home from '@/views/Home.vue';
 import Products from '@/views/Products.vue';
 import Search from '@/views/Search.vue';
 import ProductPage from '@/views/ProductPage.vue';
+import PublicProfile from '@/views/PublicProfile.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import Profile from '@/views/Profile.vue';
@@ -46,6 +47,10 @@ const router = new VueRouter({
     {
       path: '/product/:id',
       component: ProductPage
+    },
+    {
+      path: '/profile/:id',
+      component: PublicProfile
     },
     {
       path: '/login',
