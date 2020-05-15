@@ -25,9 +25,16 @@
             </v-card-subtitle>
 
             <v-card-text>
-              <p class="caption font-italic">
-                <!-- TODO: link to seller's public profile -->
-                {{ `${sellerName}'s product` }}
+              <p v-if="seller" class="font-italic">
+                <router-link
+                  :to="{ path: `/profile/${seller.id}` }"
+                  class="bidside-link bidside-link-primary"
+                >
+                  {{ `${seller.name}'s product` }}
+                </router-link>
+              </p>
+              <p v-else class="font-italic">
+                {{ `Anonymous' product` }}
               </p>
 
               {{ product.description }}
@@ -214,18 +221,17 @@ export default class ProductPage extends Vue {
     return this.$store.getters.getProfile;
   }
 
-  get sellerName(): string {
-    if (
-      this.product &&
-      this.product.profile &&
-      this.product.profile.firstName &&
-      this.product.profile.lastName
-    ) {
-      return `${this.product.profile.firstName} ${this.product.profile.lastName}`;
+  get seller() {
+    if (this.product && this.product.profile) {
+      return {
+        id: this.product.profile._id,
+        name: `${this.product.profile.firstName} ${this.product.profile.lastName}`
+      };
     } else {
-      return 'Anonymous';
+      return undefined;
     }
   }
+
   get highestBidderName(): string | undefined {
     if (
       this.product &&
