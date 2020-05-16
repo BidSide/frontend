@@ -54,6 +54,10 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -74,6 +78,9 @@ import { required, email } from 'vuelidate/lib/validators';
 })
 export default class Login extends Vue {
   isSubmitting = false;
+
+  errorSnackbar = false;
+  errorText = '';
 
   email = '';
   password = '';
@@ -110,7 +117,12 @@ export default class Login extends Vue {
 
       this.$router.push('/');
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
     this.isSubmitting = false;
   }
