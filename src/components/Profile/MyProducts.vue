@@ -68,6 +68,10 @@
         :callback="handleEditDialogClose"
       />
     </v-dialog>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -93,6 +97,9 @@ export default class MyProducts extends Vue {
   })
   readonly products!: Product[];
 
+  errorSnackbar = false;
+  errorText = '';
+
   editProductDialogOpen = false;
   editingProduct: Product | null = null;
   deleteConfirmId = '';
@@ -114,7 +121,12 @@ export default class MyProducts extends Vue {
 
       await this.$store.dispatch('deleteProduct', { id });
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.deletingItemId = '';

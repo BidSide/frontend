@@ -59,6 +59,10 @@
         </p>
       </v-sheet>
     </div>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -91,6 +95,9 @@ export default class Products extends Vue {
   loading = false;
   categoriesLoading = false;
 
+  errorSnackbar = false;
+  errorText = '';
+
   get products() {
     return this.$store.getters.getProducts;
   }
@@ -116,7 +123,12 @@ export default class Products extends Vue {
         categoryName: categoryName
       });
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.loading = false;
@@ -127,7 +139,12 @@ export default class Products extends Vue {
 
       await this.$store.dispatch('fetchCategories');
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.categoriesLoading = false;

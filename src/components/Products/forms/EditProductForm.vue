@@ -1,56 +1,62 @@
 <template>
-  <v-card>
-    <v-form @submit.prevent="handleEditProduct">
-      <v-card-title>
-        {{ 'Edit product' }}
-      </v-card-title>
+  <div>
+    <v-card>
+      <v-form @submit.prevent="handleEditProduct">
+        <v-card-title>
+          {{ 'Edit product' }}
+        </v-card-title>
 
-      <v-card-text>
-        <v-row dense>
-          <v-col cols="12">
-            <v-text-field
-              type="text"
-              label="Product name"
-              v-model="name"
-              :error-messages="getNameErrors"
-              outlined
-            />
-          </v-col>
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="12">
+              <v-text-field
+                type="text"
+                label="Product name"
+                v-model="name"
+                :error-messages="getNameErrors"
+                outlined
+              />
+            </v-col>
 
-          <v-col cols="12">
-            <v-text-field
-              type="text"
-              label="Product description"
-              v-model="description"
-              :error-messages="getDescriptionErrors"
-              outlined
-            />
-          </v-col>
-        </v-row>
-      </v-card-text>
+            <v-col cols="12">
+              <v-text-field
+                type="text"
+                label="Product description"
+                v-model="description"
+                :error-messages="getDescriptionErrors"
+                outlined
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
 
-      <v-divider />
-      <v-card-actions>
-        <v-btn @click="callback" :disabled="isSubmitting" color="secondary">
-          <v-icon class="mr-1">
-            {{ 'mdi-chevron-left' }}
-          </v-icon>
+        <v-divider />
+        <v-card-actions>
+          <v-btn @click="callback" :disabled="isSubmitting" color="secondary">
+            <v-icon class="mr-1">
+              {{ 'mdi-chevron-left' }}
+            </v-icon>
 
-          {{ 'Cancel' }}
-        </v-btn>
+            {{ 'Cancel' }}
+          </v-btn>
 
-        <v-spacer />
+          <v-spacer />
 
-        <v-btn type="submit" :loading="isSubmitting" color="primary">
-          {{ 'Make changes' }}
+          <v-btn type="submit" :loading="isSubmitting" color="primary">
+            {{ 'Make changes' }}
 
-          <v-icon class="ml-2">
-            {{ 'mdi-content-save' }}
-          </v-icon>
-        </v-btn>
-      </v-card-actions>
-    </v-form>
-  </v-card>
+            <v-icon class="ml-2">
+              {{ 'mdi-content-save' }}
+            </v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
+  </div>
 </template>
 
 <script lang="ts">
@@ -78,6 +84,9 @@ export default class EditProductForm extends Vue {
     required: false
   })
   readonly callback: Function | undefined;
+
+  errorSnackbar = false;
+  errorText = '';
 
   isSubmitting = false;
 
@@ -134,7 +143,12 @@ export default class EditProductForm extends Vue {
       this.description = '';
       this.$v.$reset();
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     if (this.callback) this.callback();

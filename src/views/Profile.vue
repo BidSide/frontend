@@ -105,6 +105,10 @@
         </v-card>
       </v-form>
     </v-dialog>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -137,6 +141,9 @@ export default class Profile extends Vue {
   topupLoading = false;
   topupDialogOpen = false;
   tabValue = 0;
+
+  errorSnackbar = false;
+  errorText = '';
 
   topupValue = 0;
 
@@ -175,7 +182,12 @@ export default class Profile extends Vue {
 
       await this.$store.dispatch('fetchProfile');
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.loading = false;
@@ -187,7 +199,12 @@ export default class Profile extends Vue {
 
       await this.$store.dispatch('fetchMyProducts');
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.myProductsLoading = false;
@@ -210,7 +227,12 @@ export default class Profile extends Vue {
       this.topupValue = 0;
       this.$v.$reset();
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.topupLoading = false;

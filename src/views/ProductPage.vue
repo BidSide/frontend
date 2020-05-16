@@ -181,6 +181,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -197,6 +201,9 @@ import { Product, Profile } from '@/types';
 })
 export default class ProductPage extends Vue {
   loading = false;
+
+  errorSnackbar = false;
+  errorText = '';
 
   bidDialogOpen = false;
   bidLoading = false;
@@ -287,7 +294,12 @@ export default class ProductPage extends Vue {
         id: this.$route.params.id
       });
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
   }
 
@@ -295,7 +307,12 @@ export default class ProductPage extends Vue {
     try {
       await this.$store.dispatch('fetchProfile');
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
   }
 
@@ -315,7 +332,12 @@ export default class ProductPage extends Vue {
 
       this.bidDialogOpen = false;
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.bidLoading = false;
@@ -334,7 +356,12 @@ export default class ProductPage extends Vue {
         id: this.product && this.product._id
       });
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.buyoutLoading = false;

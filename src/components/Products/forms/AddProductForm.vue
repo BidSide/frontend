@@ -1,82 +1,88 @@
 <template>
-  <v-card>
-    <v-form @submit.prevent="addNewProduct">
-      <v-card-title>
-        {{ 'I want to sell my product' }}
-      </v-card-title>
-      <v-divider />
+  <div>
+    <v-card>
+      <v-form @submit.prevent="addNewProduct">
+        <v-card-title>
+          {{ 'I want to sell my product' }}
+        </v-card-title>
+        <v-divider />
 
-      <v-card-text>
-        <v-row dense>
-          <v-col cols="12">
-            <v-text-field
-              type="text"
-              label="Name of your product"
-              v-model="name"
-              :error-messages="getNameErrors"
-              outlined
-            />
-          </v-col>
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="12">
+              <v-text-field
+                type="text"
+                label="Name of your product"
+                v-model="name"
+                :error-messages="getNameErrors"
+                outlined
+              />
+            </v-col>
 
-          <v-col cols="12">
-            <v-text-field
-              type="text"
-              label="Description of your product"
-              v-model="description"
-              :error-messages="getDescriptionErrors"
-              outlined
-            />
-          </v-col>
+            <v-col cols="12">
+              <v-text-field
+                type="text"
+                label="Description of your product"
+                v-model="description"
+                :error-messages="getDescriptionErrors"
+                outlined
+              />
+            </v-col>
 
-          <v-col cols="12" sm="6">
-            <v-text-field
-              type="number"
-              label="Starter price of your product"
-              append-icon="mdi-currency-usd-circle"
-              v-model="starterPrice"
-              :error-messages="getStarterPriceErrors"
-              outlined
-            />
-          </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                type="number"
+                label="Starter price of your product"
+                append-icon="mdi-currency-usd-circle"
+                v-model="starterPrice"
+                :error-messages="getStarterPriceErrors"
+                outlined
+              />
+            </v-col>
 
-          <v-col cols="12" sm="6">
-            <v-text-field
-              type="number"
-              label="Buyout price of your product"
-              append-icon="mdi-currency-usd-circle"
-              v-model="buyoutPrice"
-              :error-messages="getBuyoutPriceErrors"
-              outlined
-            />
-          </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                type="number"
+                label="Buyout price of your product"
+                append-icon="mdi-currency-usd-circle"
+                v-model="buyoutPrice"
+                :error-messages="getBuyoutPriceErrors"
+                outlined
+              />
+            </v-col>
 
-          <v-col cols="12">
-            <v-select
-              :loading="categoriesLoading"
-              :disabled="categoriesLoading"
-              :items="categoryItems"
-              v-model="category"
-              :error-messages="getCategoryErrors"
-              label="Select a category..."
-              outlined
-            />
-          </v-col>
-        </v-row>
-      </v-card-text>
+            <v-col cols="12">
+              <v-select
+                :loading="categoriesLoading"
+                :disabled="categoriesLoading"
+                :items="categoryItems"
+                v-model="category"
+                :error-messages="getCategoryErrors"
+                label="Select a category..."
+                outlined
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
 
-      <v-divider />
-      <v-card-actions>
-        <v-spacer />
-        <v-btn type="submit" :loading="isSubmitting" color="primary">
-          {{ 'List my product' }}
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn type="submit" :loading="isSubmitting" color="primary">
+            {{ 'List my product' }}
 
-          <v-icon class="ml-2">
-            {{ 'mdi-plus-circle-outline' }}
-          </v-icon>
-        </v-btn>
-      </v-card-actions>
-    </v-form>
-  </v-card>
+            <v-icon class="ml-2">
+              {{ 'mdi-plus-circle-outline' }}
+            </v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
+  </div>
 </template>
 
 <script lang="ts">
@@ -102,6 +108,9 @@ export default class AddProductForm extends Vue {
     required: false
   })
   readonly callback: Function | undefined;
+
+  errorSnackbar = false;
+  errorText = '';
 
   categoriesLoading = false;
   isSubmitting = false;
@@ -190,7 +199,12 @@ export default class AddProductForm extends Vue {
       this.category = '';
       this.$v.$reset();
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     if (this.callback) this.callback();
@@ -203,7 +217,12 @@ export default class AddProductForm extends Vue {
 
       await this.$store.dispatch('fetchCategories');
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.categoriesLoading = false;
