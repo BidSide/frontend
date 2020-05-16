@@ -19,7 +19,7 @@
               <!-- right -->
               <div>
                 <v-card-text>
-                  <v-btn color="primary">
+                  <v-btn color="primary" :disabled="!token">
                     {{ 'Subscribe' }}
 
                     <v-icon small class="ml-2">
@@ -59,6 +59,10 @@ import { PublicProfileInterface } from '@/types';
 })
 export default class PublicProfile extends Vue {
   loading = false;
+
+  get token(): string | null {
+    return this.$store.getters.getJwt;
+  }
 
   get publicProfile(): PublicProfileInterface | null {
     return this.$store.getters.getPublicProfile;
