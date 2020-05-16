@@ -5,6 +5,7 @@ export interface Profile {
     _id: string;
     wallet: number;
     user: string;
+    subscriptions: string[];
   };
   transactionLogs: TransactionLog[];
 }

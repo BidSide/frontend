@@ -5,10 +5,14 @@ export interface Product {
   starterPrice: number;
   currentPrice?: {
     amount: number;
-    user: {
+    profile: {
       _id: string;
-      firstName: string;
-      lastName: string;
+      subscriptions: string[];
+      user: {
+        _id: string;
+        firstName: string;
+        lastName: string;
+      };
     };
     createdAt: string;
   } | null;
@@ -18,8 +22,12 @@ export interface Product {
   category?: Category | null;
   profile?: {
     _id: string;
-    firstName: string;
-    lastName: string;
+    subscriptions: string[];
+    user: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
   };
 }
 
