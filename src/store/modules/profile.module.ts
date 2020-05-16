@@ -33,6 +33,14 @@ const profile: Module<
       } else {
         return [];
       }
+    },
+
+    getMySubscriptions(state) {
+      if (state.profile) {
+        return state.profile.info.subscriptions;
+      } else {
+        return [];
+      }
     }
   },
 
@@ -55,6 +63,18 @@ const profile: Module<
 
     deleteProduct(state, { id }: { id: string }) {
       state.myProducts = state.myProducts.filter(prod => prod._id !== id);
+    },
+
+    addSubscription(state, { id }: { id: string }) {
+      if (state.profile) state.profile.info.subscriptions.push(id);
+    },
+
+    removeSubscription(state, { id }: { id: string }) {
+      if (state.profile) {
+        state.profile.info.subscriptions = state.profile.info.subscriptions.filter(
+          sub => sub !== id
+        );
+      }
     }
   },
 

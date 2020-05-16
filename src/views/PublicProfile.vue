@@ -19,11 +19,31 @@
               <!-- right -->
               <div>
                 <v-card-text>
-                  <v-btn color="primary" :disabled="!token">
+                  <v-btn
+                    v-if="!amISubscribed"
+                    color="secondary"
+                    :disabled="!token"
+                    :loading="subscribeActionLoading"
+                    @click="handleSubscribe"
+                  >
                     {{ 'Subscribe' }}
 
                     <v-icon small class="ml-2">
                       {{ 'mdi-bell-ring' }}
+                    </v-icon>
+                  </v-btn>
+
+                  <v-btn
+                    v-else
+                    color="primary"
+                    :disabled="!token"
+                    :loading="subscribeActionLoading"
+                    @click="handleUnsubscribe"
+                  >
+                    {{ 'Unsubscribe' }}
+
+                    <v-icon small class="ml-2">
+                      {{ 'mdi-bell-off' }}
                     </v-icon>
                   </v-btn>
                 </v-card-text>
@@ -43,6 +63,10 @@
         </v-sheet>
       </v-col>
     </v-row>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -59,15 +83,24 @@ import { PublicProfileInterface } from '@/types';
 })
 export default class PublicProfile extends Vue {
   loading = false;
+  subscribeActionLoading = false;
+
+  errorSnackbar = false;
+  errorText = '';
 
   get token(): string | null {
     return this.$store.getters.getJwt;
+  }
+  get mySubscriptions(): string[] {
+    return this.$store.getters.getMySubscriptions;
+  }
+  get amISubscribed(): boolean {
+    return this.mySubscriptions.some(sub => sub === this.publicProfile?._id);
   }
 
   get publicProfile(): PublicProfileInterface | null {
     return this.$store.getters.getPublicProfile;
   }
-
   get fullName(): string | undefined {
     if (this.publicProfile && this.publicProfile.user) {
       return (
@@ -88,7 +121,20 @@ export default class PublicProfile extends Vue {
   }
 
   mounted() {
-    this.fetchPublicProfile();
+    this.fetchProfile().then(() => this.fetchPublicProfile());
+  }
+
+  async fetchProfile() {
+    try {
+      await this.$store.dispatch('fetchProfile');
+    } catch (error) {
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
+    }
   }
 
   async fetchPublicProfile() {
@@ -99,10 +145,53 @@ export default class PublicProfile extends Vue {
         id: this.$route.params.id
       });
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.loading = false;
+  }
+
+  async handleSubscribe() {
+    this.subscribeActionLoading = true;
+
+    try {
+      await this.$store.dispatch('subscribeToProfile', {
+        id: this.publicProfile?._id
+      });
+    } catch (error) {
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
+    }
+
+    this.subscribeActionLoading = false;
+  }
+
+  async handleUnsubscribe() {
+    this.subscribeActionLoading = true;
+
+    try {
+      await this.$store.dispatch('unsubscribeFromProfile', {
+        id: this.publicProfile?._id
+      });
+    } catch (error) {
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
+    }
+
+    this.subscribeActionLoading = false;
   }
 }
 </script>

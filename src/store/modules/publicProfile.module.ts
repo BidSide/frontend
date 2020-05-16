@@ -40,6 +40,18 @@ const publicProfile: Module<
           publicProfile: response.data
         });
       }
+    },
+
+    async subscribeToProfile({ commit }, { id }: { id: string }) {
+      await axios.post(`${baseURL}/profile/subscribe/${id}`);
+
+      commit('addSubscription', { id });
+    },
+
+    async unsubscribeFromProfile({ commit }, { id }: { id: string }) {
+      await axios.delete(`${baseURL}/profile/subscribe/${id}`);
+
+      commit('removeSubscription', { id });
     }
   }
 };
