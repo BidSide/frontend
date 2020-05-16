@@ -42,6 +42,10 @@
         </v-sheet>
       </v-col>
     </v-row>
+
+    <v-snackbar v-model="errorSnackbar" right color="error">
+      {{ errorText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -68,6 +72,9 @@ import ProductList from '@/components/Products/ProductList.vue';
 export default class Home extends Vue {
   loading = false;
 
+  errorSnackbar = false;
+  errorText = '';
+
   get products(): Product[] {
     return this.$store.getters.getProducts;
   }
@@ -82,7 +89,12 @@ export default class Home extends Vue {
 
       await this.$store.dispatch('fetchProducts');
     } catch (error) {
-      console.error(error);
+      this.errorText =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        'Action failed :(';
+      this.errorSnackbar = true;
     }
 
     this.loading = false;
