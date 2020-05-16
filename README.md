@@ -1,4 +1,4 @@
-# frontend
+# BidSide
 
 ## Project setup
 ```
