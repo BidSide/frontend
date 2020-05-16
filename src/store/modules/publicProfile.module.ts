@@ -33,9 +33,13 @@ const publicProfile: Module<
 
   actions: {
     async fetchPublicProfile({ commit }, { id }: { id: string }) {
-      const response = await axios.get(`${baseURL}/profile/${id}`);
+      const response = await axios.get(`${baseURL}/profile/public/${id}`);
 
-      console.log(response);
+      if (response.data) {
+        commit('setPublicProfile', {
+          publicProfile: response.data
+        });
+      }
     }
   }
 };

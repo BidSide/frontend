@@ -1,18 +1,25 @@
 export interface Profile {
+  _id: string;
   firstName: string;
   lastName: string;
   info: {
     _id: string;
-    wallet: number;
-    user: string;
     subscriptions: string[];
+    user: string;
+    wallet: number;
   };
   transactionLogs: TransactionLog[];
 }
 
 export interface PublicProfileInterface {
-  firstName: string;
-  lastName: string;
+  _id: string;
+  subscriptions: string[];
+  user: {
+    _id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
 }
 
 export interface TransactionLog {
