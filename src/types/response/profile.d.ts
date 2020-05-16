@@ -9,6 +9,7 @@ export interface Profile {
     wallet: number;
   };
   transactionLogs: TransactionLog[];
+  subscribers: number;
 }
 
 export interface PublicProfileInterface {
