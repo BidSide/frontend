@@ -7,6 +7,7 @@ Vue.use(Vuex);
 import auth from './modules/auth.module';
 import products from './modules/products.module';
 import profile from './modules/profile.module';
+import publicProfile from './modules/publicProfile.module';
 
 export default new Vuex.Store({
   state: {},
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     products,
-    profile
+    profile,
+    publicProfile
   }
 });
