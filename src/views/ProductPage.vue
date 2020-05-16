@@ -225,10 +225,11 @@ export default class ProductPage extends Vue {
     if (
       this.product &&
       this.product.profile &&
-      this.product.profile.firstName &&
-      this.product.profile.lastName
+      this.product.profile.user &&
+      this.product.profile.user.firstName &&
+      this.product.profile.user.lastName
     ) {
-      return `${this.product.profile.firstName} ${this.product.profile.lastName}`;
+      return `${this.product.profile.user.firstName} ${this.product.profile.user.lastName}`;
     } else {
       return 'Anonymous';
     }
@@ -237,11 +238,12 @@ export default class ProductPage extends Vue {
     if (
       this.product &&
       this.product.currentPrice &&
-      this.product.currentPrice.user &&
-      this.product.currentPrice.user.firstName &&
-      this.product.currentPrice.user.lastName
+      this.product.currentPrice.profile &&
+      this.product.currentPrice.profile.user &&
+      this.product.currentPrice.profile.user.firstName &&
+      this.product.currentPrice.profile.user.lastName
     ) {
-      return `${this.product.currentPrice.user.firstName} ${this.product.currentPrice.user.lastName}`;
+      return `${this.product.currentPrice.profile.user.firstName} ${this.product.currentPrice.profile.user.lastName}`;
     } else {
       return undefined;
     }
@@ -253,7 +255,7 @@ export default class ProductPage extends Vue {
       this.profile.info &&
       this.product &&
       this.product.profile &&
-      this.profile.info.user === this.product.profile._id
+      this.profile.info._id === this.product.profile._id
     ) {
       return true;
     } else {
@@ -266,8 +268,9 @@ export default class ProductPage extends Vue {
       this.profile.info &&
       this.product &&
       this.product.currentPrice &&
-      this.product.currentPrice.user &&
-      this.profile.info.user === this.product.currentPrice.user._id
+      this.product.currentPrice.profile &&
+      this.product.currentPrice.profile.user &&
+      this.profile.info._id === this.product.currentPrice.profile._id
     ) {
       return true;
     } else {
