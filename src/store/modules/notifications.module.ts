@@ -20,7 +20,7 @@ const notifications: Module<
 
   getters: {
     getNotificationCount(state) {
-      return state.notifications.length;
+      return state.notificationCount;
     },
 
     getNotifications(state) {
@@ -46,7 +46,7 @@ const notifications: Module<
 
   actions: {
     async fetchNotificationCount({ commit }) {
-      const response = await axios.get(`${baseURL}/notifications`);
+      const response = await axios.get(`${baseURL}/notification`);
 
       commit('setNotificationCount', {
         notificationCount: !isNaN(response.data) ? response.data : 0
@@ -54,7 +54,7 @@ const notifications: Module<
     },
 
     async fetchNotifications({ commit }) {
-      const response = await axios.get(`${baseURL}/notifications/list`);
+      const response = await axios.get(`${baseURL}/notification/list`);
 
       if (Array.isArray(response.data)) {
         commit('setNotifications', {
