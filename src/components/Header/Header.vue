@@ -32,7 +32,7 @@
 
       <v-spacer />
 
-      <NotificationBell />
+      <NotificationBell v-if="token" />
 
       <HeaderNavigation :routes="routes" @openDrawer="$emit('openDrawer')" />
     </v-app-bar>
