@@ -22,7 +22,7 @@
                   <v-btn
                     v-if="!amISubscribed"
                     color="secondary"
-                    :disabled="!token"
+                    :disabled="isSubscribeDisabled"
                     :loading="subscribeActionLoading"
                     @click="handleSubscribe"
                   >
@@ -36,7 +36,7 @@
                   <v-btn
                     v-else
                     color="primary"
-                    :disabled="!token"
+                    :disabled="isSubscribeDisabled"
                     :loading="subscribeActionLoading"
                     @click="handleUnsubscribe"
                   >
@@ -74,7 +74,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-import { PublicProfileInterface } from '@/types';
+import { PublicProfileInterface, Profile } from '@/types';
 
 @Component({
   metaInfo: {
@@ -91,11 +91,25 @@ export default class PublicProfile extends Vue {
   get token(): string | null {
     return this.$store.getters.getJwt;
   }
+  get profile(): Profile | null {
+    return this.$store.getters.getProfile;
+  }
   get mySubscriptions(): string[] {
     return this.$store.getters.getMySubscriptions;
   }
   get amISubscribed(): boolean {
     return this.mySubscriptions.some(sub => sub === this.publicProfile?._id);
+  }
+  get isSubscribeDisabled(): boolean {
+    if (this.token && this.profile && this.publicProfile) {
+      if (this.profile.info._id === this.publicProfile._id) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
 
   get publicProfile(): PublicProfileInterface | null {
@@ -121,7 +135,16 @@ export default class PublicProfile extends Vue {
   }
 
   mounted() {
-    this.fetchProfile().then(() => this.fetchPublicProfile());
+    this.fetchAll();
+  }
+
+  async fetchAll() {
+    this.loading = true;
+
+    await this.fetchProfile();
+    await this.fetchPublicProfile();
+
+    this.loading = false;
   }
 
   async fetchProfile() {
@@ -138,8 +161,6 @@ export default class PublicProfile extends Vue {
   }
 
   async fetchPublicProfile() {
-    this.loading = true;
-
     try {
       await this.$store.dispatch('fetchPublicProfile', {
         id: this.$route.params.id
@@ -152,8 +173,6 @@ export default class PublicProfile extends Vue {
         'Action failed :(';
       this.errorSnackbar = true;
     }
-
-    this.loading = false;
   }
 
   async handleSubscribe() {
