@@ -32,6 +32,8 @@
 
       <v-spacer />
 
+      <NotificationBell />
+
       <HeaderNavigation :routes="routes" @openDrawer="$emit('openDrawer')" />
     </v-app-bar>
 
@@ -49,11 +51,13 @@ import { Prop } from 'vue-property-decorator';
 // Components
 import HeaderNavigation from './HeaderNavigation.vue';
 import AddProductForm from '@/components/Products/forms/AddProductForm.vue';
+import NotificationBell from '@/components/Notifications/NotificationBell.vue';
 
 @Component({
   components: {
     HeaderNavigation,
-    AddProductForm
+    AddProductForm,
+    NotificationBell
   }
 })
 export default class Header extends Vue {
