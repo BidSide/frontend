@@ -4,6 +4,7 @@ export {
   PublicProfileInterface,
   TransactionLog
 } from './response/profile';
+export { Notification } from './response/notifications';
 
 export interface Route {
   label: string;
