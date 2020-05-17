@@ -26,7 +26,7 @@
                     :loading="subscribeActionLoading"
                     @click="handleSubscribe"
                   >
-                    {{ 'Subscribe' }}
+                    {{ 'Follow' }}
 
                     <v-icon small class="ml-2">
                       {{ 'mdi-bell-ring' }}
@@ -40,7 +40,7 @@
                     :loading="subscribeActionLoading"
                     @click="handleUnsubscribe"
                   >
-                    {{ 'Unsubscribe' }}
+                    {{ 'Unfollow' }}
 
                     <v-icon small class="ml-2">
                       {{ 'mdi-bell-off' }}
