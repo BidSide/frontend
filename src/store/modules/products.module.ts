@@ -128,6 +128,11 @@ const products: Module<
           }
         });
       }
+
+      return {
+        ...response.data,
+        category: state.categories.find(cat => cat._id === category)
+      };
     },
 
     async editProduct(
