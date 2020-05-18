@@ -61,6 +61,13 @@ const notifications: Module<
           notifications: response.data
         });
       }
+    },
+
+    async markNotificationAsSeen({ dispatch }, { id }: { id: string }) {
+      await axios.get(`${baseURL}/notification/${id}`);
+
+      await dispatch('fetchNotificationCount');
+      await dispatch('fetchNotifications');
     }
   }
 };

@@ -33,9 +33,14 @@
     </template>
 
     <v-list v-if="!notificationsLoading">
+      <v-list-item v-if="sortedNotifications.length < 1">
+        {{ 'No new notifications.' }}
+      </v-list-item>
+
       <v-list-item
         v-for="(notification, index) in sortedNotifications"
         :key="index"
+        @click="markNotificationAsSeen(notification._id)"
       >
         <v-list-item-title
           class="notification notification-new font-weight-bold"
@@ -90,7 +95,7 @@ export default class NotificationBell extends Vue {
     // fetch notifications every minute
     this.notificationInterval = setIntervalAsync(async () => {
       await this.fetchNotificationCount();
-    }, 60000);
+    }, 30000);
   }
 
   beforeDestroy() {
@@ -103,7 +108,6 @@ export default class NotificationBell extends Vue {
     try {
       await this.$store.dispatch('fetchNotificationCount');
     } catch (error) {
-      // TODO: handle error
       console.error(error);
     }
   }
@@ -114,11 +118,18 @@ export default class NotificationBell extends Vue {
     try {
       await this.$store.dispatch('fetchNotifications');
     } catch (error) {
-      // TODO: handle error
       console.error(error);
     }
 
     this.notificationsLoading = false;
+  }
+
+  async markNotificationAsSeen(id: string) {
+    try {
+      await this.$store.dispatch('markNotificationAsSeen', { id });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 </script>
