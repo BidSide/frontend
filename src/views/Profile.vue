@@ -231,6 +231,8 @@ export default class Profile extends Vue {
       this.topupDialogOpen = false;
       this.topupValue = 0;
       this.$v.$reset();
+
+      this.topupSnackbar = true;
     } catch (error) {
       this.errorText =
         (error.response &&
@@ -240,7 +242,6 @@ export default class Profile extends Vue {
       this.errorSnackbar = true;
     }
 
-    this.topupSnackbar = true;
     this.topupLoading = false;
   }
 }
