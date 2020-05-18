@@ -91,7 +91,7 @@ import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import { required, minValue, integer } from 'vuelidate/lib/validators';
 
-import { Category } from '@/types';
+import { Category, Product } from '@/types';
 
 @Component({
   validations: () => ({
@@ -184,7 +184,7 @@ export default class AddProductForm extends Vue {
 
     try {
       this.isSubmitting = true;
-      await this.$store.dispatch('addProduct', {
+      const addedProduct: Product = await this.$store.dispatch('addProduct', {
         name: this.name,
         description: this.description,
         starterPrice: this.starterPrice,
@@ -198,6 +198,8 @@ export default class AddProductForm extends Vue {
       this.buyoutPrice = 0;
       this.category = '';
       this.$v.$reset();
+
+      this.$router.push(`/product/${addedProduct._id}`);
     } catch (error) {
       this.errorText =
         (error.response &&

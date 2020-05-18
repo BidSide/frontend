@@ -192,6 +192,14 @@
     <v-snackbar v-model="errorSnackbar" right color="error">
       {{ errorText }}
     </v-snackbar>
+
+    <v-snackbar v-model="bidSnackbar" right color="success">
+      {{ 'You became the highest bidder!' }}
+    </v-snackbar>
+
+    <v-snackbar v-model="buyoutSnackbar" right color="success">
+      {{ 'Successful purchase!' }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -209,6 +217,8 @@ import { Product, Profile } from '@/types';
 export default class ProductPage extends Vue {
   loading = false;
 
+  bidSnackbar = false;
+  buyoutSnackbar = false;
   errorSnackbar = false;
   errorText = '';
 
@@ -333,12 +343,13 @@ export default class ProductPage extends Vue {
     try {
       this.bidLoading = true;
 
-      this.$store.dispatch('bidProduct', {
+      await this.$store.dispatch('bidProduct', {
         id: this.product && this.product._id,
         amount: this.bidValue
       });
 
       this.bidDialogOpen = false;
+      this.bidSnackbar = true;
     } catch (error) {
       this.errorText =
         (error.response &&
@@ -363,6 +374,8 @@ export default class ProductPage extends Vue {
       await this.$store.dispatch('buyoutProduct', {
         id: this.product && this.product._id
       });
+
+      this.buyoutSnackbar = true;
     } catch (error) {
       this.errorText =
         (error.response &&

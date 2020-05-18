@@ -109,6 +109,10 @@
     <v-snackbar v-model="errorSnackbar" right color="error">
       {{ errorText }}
     </v-snackbar>
+
+    <v-snackbar v-model="topupSnackbar" right color="success">
+      {{ 'Successful top-up!' }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -142,6 +146,7 @@ export default class Profile extends Vue {
   topupDialogOpen = false;
   tabValue = 0;
 
+  topupSnackbar = false;
   errorSnackbar = false;
   errorText = '';
 
@@ -226,6 +231,8 @@ export default class Profile extends Vue {
       this.topupDialogOpen = false;
       this.topupValue = 0;
       this.$v.$reset();
+
+      this.topupSnackbar = true;
     } catch (error) {
       this.errorText =
         (error.response &&
