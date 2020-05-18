@@ -50,6 +50,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import {
+  setIntervalAsync,
+  SetIntervalAsyncTimer,
+  clearIntervalAsync
+} from 'set-interval-async/fixed';
 
 import { Notification } from '@/types';
 
@@ -57,6 +62,8 @@ import { Notification } from '@/types';
 export default class NotificationBell extends Vue {
   notificationMenuOpen = false;
   notificationsLoading = false;
+
+  notificationInterval: SetIntervalAsyncTimer | null = null;
 
   get notificationCount(): number {
     return this.$store.getters.getNotificationCount;
@@ -79,6 +86,17 @@ export default class NotificationBell extends Vue {
 
   mounted() {
     this.fetchNotificationCount();
+
+    // fetch notifications every minute
+    this.notificationInterval = setIntervalAsync(async () => {
+      await this.fetchNotificationCount();
+    }, 60000);
+  }
+
+  beforeDestroy() {
+    if (this.notificationInterval) {
+      clearIntervalAsync(this.notificationInterval);
+    }
   }
 
   async fetchNotificationCount() {
